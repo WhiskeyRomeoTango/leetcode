@@ -171,4 +171,5 @@ def searchRange(self, nums, target):
 
 ## Related Problems
 
-[278. First Bad Version](https://leetcode.com/problems/first-bad-version/submissions/)
+* [35. Search Insertion Position](https://leetcode.com/problems/first-bad-version/submissions/) - This is exactly the same as finding lower bound.
+* [278. First Bad Version](https://leetcode.com/problems/first-bad-version/submissions/) - The check is no longer about number comparing but the concept is the same.
