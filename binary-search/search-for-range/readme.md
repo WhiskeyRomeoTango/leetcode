@@ -168,3 +168,7 @@ def searchRange(self, nums, target):
         return [-1, -1]
     return [l, r]
 ```
+
+## Related Problems
+
+[278. First Bad Version](https://leetcode.com/problems/first-bad-version/submissions/)
