@@ -1,6 +1,6 @@
 # Backtracking
 
-Backtracking by itself is a general algorithm best used for constraint satisfaction problems. The tell-tale signs of a problem best suited for backtracking is **finding all or some solutions that meet certain criteria / constraint**. Specifically, we must be able to test partial solutions against the criteria. Backtracking builds partial solutions **recursively** in a depth-search fashion, and checks them against the criteria. If the partial solution meets the constraint, it expands upon the solution and generates new paths. Otherwise, it **backtracks** to the previously valid path and explore other options. Examples of such problems include:
+Backtracking by itself is a general algorithm best used for constraint satisfaction problems. The tell-tale signs of a problem best suited for it is **finding all or some solutions that meet certain criteria / constraint**. Specifically, we must be able to test partial solutions against the criteria. Backtracking builds partial solutions **recursively** in a depth-search fashion, and checks them against the criteria. If the partial solution meets the constraint, it expands from there and generates more new paths. Otherwise, it **backtracks** to the previously valid path and explore other options. Examples of such problems include:
 
 * Puzzles like Soduku, Crosswords, etc - these usually only have 1 unique solution that needs to be identified.
 * Combinations/permutations of certain elements (numbers, characters, ...) that meets certain criteria - these usually ask us for all possible solutions available.
@@ -18,18 +18,20 @@ Using these 3 parts, we can generalize backtracking with this pseudocode:
 ```
 backtrack(solution):
     if solution is not valid:
-        return
-    if solution is valid:
-        output(solution)
-    for p in all permutations(solution):
-        backtrack(p)
+        do nothing, solution destroyed
+    else if solution is valid:
+        if solution is complete:
+            output(solution)
+        for p in all permutations(solution):
+            if p is valid:
+                backtrack(p)
 ```
 
-For `output()`, it's usually just pushing the solution to an array, if we are trying to find all the solutions.
+`output()` depends on what kind of solution we are after. If there is only 1 unique solution to the problem, `output()` can be just returning the solution. But in many other cases, we are asked to return a list of all solutions, then we'll need to create a store outside of `backtrack()`, and `output()` becomes pushing the solution to the store.
 
 ## Backtracking and Depth First Search (DFS)
 
-I've seen on LeetCode that some people mix DFS and Backtracking. I do feel that visualize backtracking as a DFS search in tree is very helpful for understanding backtracking. But there is a subtle difference between the two we should understand. In theory, DFS is used only for tree or graph data structures, while backtracking works for all types of data structures. In practice, backtracking creates a search tree via the recursions and permutations, and performs DFS with pruning via the validity and completion checks. 
+I've seen on LeetCode that some people mix DFS and Backtracking. I do feel that visualizing backtracking as a DFS search in tree is very helpful for understanding it. But there is a subtle difference between the two we should understand. In theory, DFS is used only for tree or graph data structures, while backtracking works for all types of data structures. In practice, backtracking creates a search tree via the recursions and permutations, and performs DFS with pruning via the validity and completion checks. 
 
 Consider a simple problem where we need to generate strings using characters `['a', 'b']`. Although there is no explicit tree/graph structure here, we can abstract it:
 
@@ -38,15 +40,15 @@ Consider a simple problem where we need to generate strings using characters `['
     /    \
    a      b
   / \    / \
- a   b  a   b
+ aa ab  ba bb
      ....
 ```
 
-For backtracking, there should always be a completion constraint we should meet, otherwise this tree will just be infinitely deep. For example, the length of the string must be shorter than or eqaul to 5 characters. Then, we will essentially depth first search this tree until we are at depth 5, and backtrack. By doing so we effectively pruned out any branch that's over 5 nodes deep. There should also be validity checks to prune the branches further, which may or may not be the same as the completion check. For example, we can have an additional validity check of whether a and b are alternating (i.e. no consecutive a's or b's).
+For backtracking, there should always be a completion constraint we should meet, otherwise this tree will just be infinitely deep. For example, the length of the string must be shorter than or eqaul to 5 characters. Then, we will essentially DFS this tree until we are at depth 5, and backtrack. By doing so we will prune out any branch that's over 5 nodes deep. There should also be validity checks to prune the branches further, which may or may not be the same as the completion check. For example, we can have an additional validity check of whether a and b are alternating (i.e. no consecutive a's or b's) - that would prune out branches like `'aa'` and `'bb'`.
 
 For a vanilla DFS on a tree though, since the data structure is finite, we will eventually reach a null node that represents the end of a branch, that's the only case when we backtrack. Obviously we can also add pruning to it based on certain condition / constraint, and we effectively turned it into backtracking on a tree structure.
 
-Vanilla DFS is best used for checking whether a certain value is in the structure. Backtracking is best used for finding all or some solutions along the searching process based on certain constraints.
+Vanilla DFS is best used for checking whether a certain value is in the structure (backtracking for 1 unique solution is almost the same as this, just without an actual tree data structure). Backtracking is best used for finding all or some solutions along the searching process based on certain constraints.
 
 ## Example - 39: Combination Sum
 
@@ -105,6 +107,12 @@ Constraints:
 * `1 <= target <= 500`
 
 ### Solution
+
+Because we can use one candidate an unlimited amount of times, I am not even sure what the brute force solution will look like. Even if we are only allowed to use each candidate once, it would be O(n!) - that's very bad. Then we can ask us some questions.
+
+* **Can we build partial solutions?** - Yes, by combining numbers in the list `candidates`.
+* **Can those partial solutions be checked for validity?** - Yes, by checking if the sum of them is smaller than or equal to `target`.
+* **Can those partial solutions be checked for completion?** - Yes, by checking if the sum of them is equal to `target`.
 
 Let's use the tree/DFS anology we saw before. Each node in this tree will be a combination of numbers from the list `candidates`, or a possible solution. Each node will also have `len(candidates)` of child nodes, representing the number of additions we can do to get new possible solutions. We will prune out branches when the sum of the combination exceed `target`, while storing the ones that sum up to exactly `target` - that's both our completion and validity check. 
 
