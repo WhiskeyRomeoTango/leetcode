@@ -131,7 +131,35 @@ def combinationSum(candidates: [int], target: int) -> [int]:
     return results
 ```
 
-It passed all tests on LeetCode and was accepted, but runtime was 750ms. So I thought we could perhaps optimize it a bit, because it's very vanilla backtracking.
+It passed all tests on LeetCode and was accepted, but runtime was 750ms. So I thought we could perhaps optimize it a bit, because it's very vanilla backtracking. There are two directions to go:
+
+* We can prune out the branches before even visiting them. First, we need to sort `candidates`. In the loop where we add each candidate to the current solution, if the candidate will render the new sum to be above `target`, then we can just break the loop because the remaining candidates will also render it invalid and thus are worthless to check. Doing this alone reduced my runtime to ~150ms.
+* To avoid duplicates, I sorted each solution and checked if it's in the `results` list already. The sorting can slow down my program a lot as the solutions get longer. A clever way to prevent this is to, again first sort `candidates`, and then add a new argument `index` to `backtrack()`, which will track the index from which we picked the candidate to generate a new solution. Therefore, the loop will only run from `index` instead of the beginning index 0. This trims down the runtime further to as low as 44ms for me. I am not a big fan of LeetCode golfing, but hey it's not too bad either! :D
+
+```python
+def combinationSum(candidates: [int], target: int) -> [int]:
+
+    # make sure candidates are sorted
+    candidates.sort()
+    results = []
+
+    def backtrack(solution: [int], target: int, index: int) -> None:
+        currSum = sum(solution)
+        if currSum > target:
+            return
+        elif currSum == target:
+            results.append(solution)
+        else:
+            for i in range(index, len(candidates)):
+                # because candidates are sorted
+                # we stop generating more permutations if it renders the new sum above target 
+                if currSum + candidates[i] > target:
+                    break
+                backtrack(solution + [candidates[i]], target, i)
+
+    backtrack([], target, 0)
+    return results
+```
 
 ## Example - 37: Suduko Solver
 
