@@ -172,7 +172,8 @@ A sudoku solution must satisfy all of the following rules:
 * Each of the digits 1-9 must occur exactly once in each row.
 * Each of the digits 1-9 must occur exactly once in each column.
 * Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
-* The '.' character indicates empty cells.
+
+The '.' character indicates empty cells.
 
 Example 1:
 
@@ -203,23 +204,102 @@ class Solution:
 
 This suggests that our backtracking is supposed to run some in-place operations, instead of generating combinations. This also means that during the actual backtracking (going back to previous paths), we need to revert the board to previous state. 
 
-We have also learned several things earlier:
+We have also learned several lessons earlier:
 
-* Running validity checks in the loop is usually better than running validity checks in the recursive function. So instead of checking whether the current board is valid, we can just run local checks to see if the number to be put in satisfy the row, column, and 3x3 box validity constraints.
-* Better yet, to reduce the # of passes we have to go through in the loop, we can also just write a helper function to get a list of numbers that will make the new board still valid, when put in the empty slot.
+* Running validity checks in the loop is usually better than running validity checks in the recursive function. So instead of checking whether the current board is valid, we can just run local checks to see if a number satisfies the row, column, and 3x3 box validity constraints, if it were to be put in a certain slot.
+* Better yet, to reduce the # of passes we have to go through in the loop, we can also just write a helper function to get a list of numbers that will satisfy the above constraints.
 
 ```
 backtrack(): -> returns a bool
     iterate the board and find the next empty slot (i, j)
     completion check - if no more empty slot:
         return True
-    for all 9 numbers:
-        validity check - if we can put it in the empty slot (i.e. no duplicate number in the row, col, or 3x3 box):
-            set board[i][j] to the number
-            if backtrack() is True:
-                return True
-            else:
-                set board[i][j] back to empty
+    for all valid number options:
+        set board[i][j] to the number
+        if backtrack() is True:
+            return True
+        else:
+            set board[i][j] back to empty
 ```
 
-The idea is that we will use `backtrack()` itself as a check, which returns `True` iff we get no more empty slots (i.e. we have found the solution). Therefore, no matter how deep we have gone through a path, if it doesn't lead to a, we will have to backtrack and complete the hanging recursions in the air - during that we will get `False` for `backtrack()` check, and set the slot back to empty.
+The idea is that we will use `backtrack()` itself as a check, which returns `True` iff we get no more empty slots (i.e. we have found the solution). Otherwise, no matter how deep we have gone through a path, if it doesn't lead to a solution, we will have to backtrack and complete remaining part of the hanging recursions - and set the slot back to empty.
+
+My solution below has a run time of 630ms. There is still room for optimization because we are using a lot of loops to run validity checks. I believe running a holistic check in the beginning and dynamically maintaining the validity states in a hash table should reduce my runtime by a great deal. For now that's TODO because I have more LeetCode to do.
+
+```python
+def solveSudoku(board: [[str]]) -> None:
+
+    def checkRow(row: int, digit: str) -> bool:
+        '''
+        Check whether the row is still valid if digit is put in there
+        '''
+        for col in range(9):
+            if digit == board[row][col]:
+                return False
+        return True
+
+    def checkCol(col: int, digit: str) -> bool:
+        '''
+        Check whether the column is still valid if digit is put in there
+        '''
+        for row in range(9):
+            if digit == board[row][col]:
+                return False
+        return True
+
+    def checkBox(row: int, col: int, digit: str) -> bool:
+        '''
+        Check whether the 3x3 box is still valid if digit is put in there
+        '''
+        # getting the row-col indices of the top left corner of the 3x3 box
+        row = (row // 3) * 3
+        col = (col // 3) * 3
+
+        for i in range(row, row + 3):
+            for j in range(col, col + 3):
+                if digit == board[i][j]:
+                    return False
+        return True
+
+    def isValid(row: int, col: int, digit: str) -> bool:
+        '''
+        Check whether the board remains valid if digit is put in the there at row-col
+        '''
+        if checkRow(row, digit) and checkCol(col, digit) and checkBox(row, col, digit):
+            return True
+        return False
+
+    def validDigits(row: int, col: int) -> [str]:
+        '''
+        Return a list of valid digits (in str) to be put in the board at row-col
+        '''
+        results = []
+        for digit in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            if isValid(row, col, digit):
+                results.append(digit)
+        return results
+
+    def findEmpty() -> (int, int):
+        '''
+        Find the next empty slot on the board in top-down, left-right order
+        '''
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    return i, j
+        return -1, -1
+
+    def backtrack() -> bool:
+        row, col = findEmpty()
+        if row == -1 and col == -1:
+            return True
+        candidates = validDigits(row, col)
+        for digit in candidates:
+            board[row][col] = digit
+            if backtrack():
+                return True
+            else:
+                board[row][col] = '.'
+
+    backtrack()
+```
