@@ -163,6 +163,8 @@ def combinationSum(candidates: [int], target: int) -> [int]:
 
 ## Example - 37: Suduko Solver
 
+### Problem Description
+
 Write a program to solve a Sudoku puzzle by filling the empty cells.
 
 A sudoku solution must satisfy all of the following rules:
@@ -187,3 +189,37 @@ Constraints:
 * `board[i][j] is a digit or '.'`
 * It is guaranteed that the input board has only one solution.
 
+### Solution
+
+This is a different flavor of backtracking. Previously we were given a range of candidates, and we were asked to return the list of all possible combinations / solutions. Here, we were guaranteed that there will be only one solution - we need to find it. Also, permutating a 9x9 2D array a gazillion times is not very memory / space friendly, and although not said in the problem description, the code template we were given says this:
+
+```python
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+```
+
+This suggests that our backtracking is supposed to run some in-place operations, instead of generating combinations. This also means that during the actual backtracking (going back to previous paths), we need to revert the board to previous state. 
+
+We have also learned several things earlier:
+
+* Running validity checks in the loop is usually better than running validity checks in the recursive function. So instead of checking whether the current board is valid, we can just run local checks to see if the number to be put in satisfy the row, column, and 3x3 box validity constraints.
+* Better yet, to reduce the # of passes we have to go through in the loop, we can also just write a helper function to get a list of numbers that will make the new board still valid, when put in the empty slot.
+
+```
+backtrack(): -> returns a bool
+    iterate the board and find the next empty slot (i, j)
+    completion check - if no more empty slot:
+        return True
+    for all 9 numbers:
+        validity check - if we can put it in the empty slot (i.e. no duplicate number in the row, col, or 3x3 box):
+            set board[i][j] to the number
+            if backtrack() is True:
+                return True
+            else:
+                set board[i][j] back to empty
+```
+
+The idea is that we will use `backtrack()` itself as a check, which returns `True` iff we get no more empty slots (i.e. we have found the solution). Therefore, no matter how deep we have gone through a path, if it doesn't lead to a, we will have to backtrack and complete the hanging recursions in the air - during that we will get `False` for `backtrack()` check, and set the slot back to empty.
