@@ -108,7 +108,7 @@ Constraints:
 
 ### Solution
 
-Because we can use one candidate an unlimited amount of times, I am not even sure what the brute force solution will look like. Even if we are only allowed to use each candidate once, it would be O(n!) - that's very bad. Then we can ask us some questions.
+Because we can use the same candidate unlimited amount of times, I am not even sure what the brute force solution will look like. Even if we are only allowed to use each candidate once, it would be O(n!) - that's very bad. Then we can ask some questions.
 
 * **Can we build partial solutions?** - Yes, by combining numbers in the list `candidates`.
 * **Can those partial solutions be checked for validity?** - Yes, by checking if the sum of them is smaller than or equal to `target`.
@@ -142,7 +142,7 @@ def combinationSum(candidates: [int], target: int) -> [int]:
 It passed all tests on LeetCode and was accepted, but runtime was 750ms. So I thought we could perhaps optimize it a bit, because it's very vanilla backtracking. There are two directions to go:
 
 * We can prune out the branches before even visiting them. First, we need to sort `candidates`. In the loop where we add each candidate to the current solution, if the candidate will render the new sum to be above `target`, then we can just break the loop because the remaining candidates will also render it invalid and thus are worthless to check. Doing this alone reduced my runtime to ~150ms.
-* To avoid duplicates, I sorted each solution and checked if it's in the `results` list already. The sorting can slow down my program a lot as the solutions get longer. A clever way to prevent this is to, again first sort `candidates`, and then add a new argument `index` to `backtrack()`, which will track the index from which we picked the candidate to generate a new solution. Therefore, the loop will only run from `index` instead of the beginning index 0. This trims down the runtime further to as low as 44ms for me. I am not a big fan of LeetCode golfing, but hey it's not too bad either! :D
+* To avoid duplicates, I sorted each solution and checked if it's in the `results` list already. The sorting can slow down my program a lot as the solutions get longer. A clever way to prevent this is to, with `candidates` sorted, add a new argument `index` to `backtrack()`, which will track the index from which we picked the candidate to generate a new solution. Therefore, the loop will only run from `index` instead of the beginning index 0. So the same number could be picked for unlimited times, but once we go beyond, it would never be picked again. This trims down the runtime further to as low as 44ms for me. I am not a big fan of LeetCode golfing, but hey it does feel good! :D
 
 ```python
 def combinationSum(candidates: [int], target: int) -> [int]:
@@ -200,6 +200,12 @@ Constraints:
 
 ### Solution
 
+Again, we can ask those 3 questions to determine whether we should use backtracking.
+
+* **Can we build partial solutions?** - Yes, by putting a number in an empty slot on the board.
+* **Can those partial solutions be checked for validity?** - Yes, by checking if any row, col, or 3x3 box has duplicates.
+* **Can those partial solutions be checked for completion?** - Yes, by checking if there is no more empty slot to be filled.
+
 This is a different flavor of backtracking. Previously we were given a range of candidates, and we were asked to return the list of all possible combinations / solutions. Here, we were guaranteed that there will be only one solution - we need to find it. Also, permutating a 9x9 2D array a gazillion times is not very memory / space friendly, and although not said in the problem description, the code template we were given says this:
 
 ```python
@@ -210,7 +216,7 @@ class Solution:
         """
 ```
 
-This suggests that our backtracking is supposed to run some in-place operations, instead of generating combinations. This also means that during the actual backtracking (going back to previous paths), we need to revert the board to previous state. 
+This suggests that our backtracking is supposed to run some in-place operations, instead of generating combinations. This also means that during the actual backtracking (going back to previous paths), we need to revert the board to previous states. 
 
 We have also learned several lessons earlier:
 
