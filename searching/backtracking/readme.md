@@ -13,10 +13,10 @@ A backtracking algorithm consists of 3 parts:
 * A mutation or addition operation performed on the solution
 * Validity check for whether the solution is complete and/or valid
 
-Using these 3 parts, we can generalize backtracking with this pseudocode:
+We need to ask ourselves whether the problem satisfies these 3 parts to determine whether we want to use backtracking. If so, we can generalize backtracking with this pseudocode:
 
 ```
-backtrack(solution):
+def backtrack(solution):
     if solution is complete:
         output(solution)
     else:
@@ -26,6 +26,22 @@ backtrack(solution):
 ```
 
 `output()` depends on what kind of solution we are after. If there is only 1 unique solution to the problem, `output()` can be just returning the solution. But in many other cases, we are asked to return a list of all solutions, then we'll need to create a store outside of `backtrack()`, and `output()` becomes pushing the solution to the store.
+
+Obviously, there are variations to this algorithm, depending on what we want. Sometimes, we need a helper variable to track the state of the problem. In that case, the generic pseudocode will become the following. Here, the state variable is passed into the function as an arugment, then we need to first change the state based on the permutation we choose, run recursions, and finally once we are out of the recursions, we need to revert back the state variable back to its original state, and go to the next permutation. 
+
+Depending on the problem, we might not even need to output the solution itself, but rather output a certain state (e.g. min / max of a property of the solution, or the terminal state). We will just need to return the state variable appropriately.
+
+```
+def backtrack(solution, state):
+    if solution is complete:
+        output(solution)
+    else:
+        for p in permutations(solution):
+            if p is valid:
+                change(state, p)
+                backtrack(p, state)
+                revert(state, p) # Backtracking the state variable as well
+```
 
 ## Backtracking and Depth First Search (DFS)
 
