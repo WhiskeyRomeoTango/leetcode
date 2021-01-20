@@ -29,8 +29,6 @@ def backtrack(solution):
 
 Obviously, there are variations to this algorithm, depending on what we want. Sometimes, we need a helper variable to track the state of the problem. In that case, the generic pseudocode will become the following. Here, the state variable is passed into the function as an arugment, then we need to first change the state based on the permutation we choose, run recursions, and finally once we are out of the recursions, we need to revert back the state variable back to its original state, and go to the next permutation. 
 
-Depending on the problem, we might not even need to output the solution itself, but rather output a certain state (e.g. min / max of a property of the solution, or the terminal state). We will just need to return the state variable appropriately.
-
 ```
 def backtrack(solution, state):
     if solution is complete:
@@ -42,6 +40,8 @@ def backtrack(solution, state):
                 backtrack(p, state)
                 revert(state, p) # Backtracking the state variable as well
 ```
+
+Depending on the problem, we might not even need to output the solution itself, but rather output a certain state (e.g. min / max of a property of the solution, or the terminal state). We will just need to return the state variable appropriately.
 
 ## Backtracking and Depth First Search (DFS)
 
