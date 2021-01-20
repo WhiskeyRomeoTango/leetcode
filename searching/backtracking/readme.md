@@ -17,14 +17,13 @@ Using these 3 parts, we can generalize backtracking with this pseudocode:
 
 ```
 backtrack(solution):
-    if solution is not valid:
-        do nothing, solution destroyed
-    else if solution is valid:
-        if solution is complete:
-            output(solution)
-        for p in all permutations(solution):
-            if p is valid:
-                backtrack(p)
+    if solution is complete:
+        output(solution)
+    otherwise solution is not complete:
+        if solution is valid:
+            for p in permutations(solution):
+                if p is valid:
+                    backtrack(p)
 ```
 
 `output()` depends on what kind of solution we are after. If there is only 1 unique solution to the problem, `output()` can be just returning the solution. But in many other cases, we are asked to return a list of all solutions, then we'll need to create a store outside of `backtrack()`, and `output()` becomes pushing the solution to the store.
