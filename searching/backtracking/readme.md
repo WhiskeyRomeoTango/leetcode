@@ -32,13 +32,13 @@ Obviously, there are variations to this algorithm, depending on what we want. So
 ```
 def backtrack(solution, state):
     if solution is complete:
-        output(solution)
+        output(solution) or output(state)
     else:
         for p in permutations(solution):
             if p is valid:
-                change(state, p)
+                change(state, p) # Optional:
                 backtrack(p, state)
-                revert(state, p) # Backtracking the state variable as well
+                revert(state, p) # Optional: Backtracking the state variable as well
 ```
 
 Depending on the problem, we might not even need to output the solution itself, but rather output a certain state (e.g. min / max of a property of the solution, or the terminal state). We will just need to return the state variable appropriately.
