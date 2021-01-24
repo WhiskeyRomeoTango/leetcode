@@ -45,6 +45,7 @@ I really like [YouTuber Reducible's video on DP](https://www.youtube.com/watch?v
 3. Find Relationships among Sub-problems
 4. Generalize the Relationship
 5. Implement by Solving Sub-problems in Order
+6. (Optional) Optimize Space Complexity of Memoization
 
 ## Example - 62: Unique Paths 
 
