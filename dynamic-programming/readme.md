@@ -58,9 +58,9 @@ How many possible unique paths are there?
 
 ![Diagram](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/robot_maze.png)
 
-### Step 1: Visualize Examples:
+### Step 1: Identify the Variables and Visualize Examples:
 
-I'm not going to use the diagram above as examples, we'll just try a simpler one of a 3x3 maze below.
+I'm not going to use the diagram above as example. Instead we'll just try a simpler one of a 3x3 maze below.
 
 ```
 ---------
@@ -72,7 +72,9 @@ I'm not going to use the diagram above as examples, we'll just try a simpler one
 ---------
 ```
 
-The only changing variable is the **location** of the robot, and we can use a `(i, j)` coordinate the represent that, where `i` is the row index and `j` is the column index. The start location is `(0, 0)`, and the finish location is `(2, 1)`. Since the dumb robot can only move right or down in the grid, we can draw a simple DAG of the paths it may take. It's actually just going to be a binary tree, where the left branch is the new location when it moves down, and the right branch when it moves right. From this graph it's actually already clear that in this example there are 3 paths for the robot to get to the finish point. We also see in this graph that the tree is not perfect since we have the cases of the robot couldn't move further right or down when it hits the edge.
+The only changing variable is the **location** of the robot, and we can use a `(i, j)` coordinate the represent that, where `i` is the row index and `j` is the column index. The start location is `(0, 0)`, and the finish location is `(2, 1)`. 
+
+Since the dumb robot can only move right or down in the grid, we can draw a simple DAG of the paths it may take. It's actually just going to be a binary tree, where the left branch is the new location when it moves down, and the right branch when it moves right. From this graph it's actually already clear that in this example there are 3 paths for the robot to get to the finish point. We also see in this graph that the tree is not perfect since we have the cases of the robot couldn't move further right or down when it hits the edge.
 
 ```
        (0, 0)
