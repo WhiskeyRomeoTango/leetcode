@@ -65,22 +65,22 @@ How many possible unique paths are there?
 Just for the fun, I implemented a backtracking algorithm to solve this problem, as shown below. Although I tested extensively and confirmed this is working, it exceeded time limit on LeetCode OJ, which indicates that my algorithm is too slow.
 
 ```python
-def uniquePaths(self, m: int, n: int) -> int:
+def uniquePaths(m: int, n: int) -> int:
 
-    paths = []
+    paths = 0
 
-    def backtrack(i, j):
+    def backtrack(i, j, paths):
         if i == n-1 and j == m-1:
-            paths.append(1)
-
+            paths += 1
+            return paths
         else:
             if i < n - 1:
-                backtrack(i + 1, j)
+                paths = backtrack(i + 1, j, paths)
             if j < m - 1:
-                backtrack(i, j + 1)
+                paths = backtrack(i, j + 1, paths)
+        return paths
 
-    backtrack(0, 0)
-    return sum(paths)
+    return backtrack(0, 0, paths)
 ```
 
 Why would this take so long? The problem is that we are literally trying every single step to try to generate a path to the finish point, and once we reach it, we would backtrack all the way back to the starting point, and then take the other direction and do it all over again. Similar to the recursive, non-DP fibonacci algorithm, at each function call, we generate a binary tree to either go right or go down. The key is that throughout this process we will revist the same position we've been before, and **run the same calculation repeatedly**. This results in a time complexity of O(2^n) which is very very bad.
@@ -155,7 +155,7 @@ dp[0][0] = 1
 Since the robot can only go right or down, we can just iterate the grid normally (i.e. top-down, left-right). In the loops, we will just skip `(0, 0)` as discussed above since it's a special case. Otherwise, we will add `dp[i-1][j]` to the solution if `i != 0`, and also add `dp[i][j-1]` if `j != 0`. Eventually, when we are out of the loops, we just need to return `dp[-1][-1]` which will be solution for the bottom-right coordinate.
 
 ```python
-def uniquePaths(self, m: int, n: int) -> int:
+def uniquePaths(m: int, n: int) -> int:
         
     dp = [ [0] * m ] * n
     dp[0][0] = 1
