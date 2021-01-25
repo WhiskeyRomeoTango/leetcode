@@ -67,20 +67,20 @@ Just for the fun, I implemented a backtracking algorithm to solve this problem, 
 ```python
 def uniquePaths(self, m: int, n: int) -> int:
 
-        paths = []
-        
-        def backtrack(i, j):
-            if i == n-1 and j == m-1:
-                paths.append(1)
-                
-            else:
-                if i < n - 1:
-                    backtrack(i + 1, j)
-                if j < m - 1:
-                    backtrack(i, j + 1)
-                    
-        backtrack(0, 0)
-        return sum(paths)
+    paths = []
+
+    def backtrack(i, j):
+        if i == n-1 and j == m-1:
+            paths.append(1)
+
+        else:
+            if i < n - 1:
+                backtrack(i + 1, j)
+            if j < m - 1:
+                backtrack(i, j + 1)
+
+    backtrack(0, 0)
+    return sum(paths)
 ```
 
 Why would this take so long? The problem is that we are literally trying every single step to try to generate a path to the finish point, and once we reach it, we would backtrack all the way back to the starting point, and then take the other direction and do it all over again. Similar to the recursive, non-DP fibonacci algorithm, at each function call, we generate a binary tree to either go right or go down. The key is that throughout this process we will revist the same position we've been before, and **run the same calculation repeatedly**. This results in a time complexity of O(2^n) which is very very bad.
