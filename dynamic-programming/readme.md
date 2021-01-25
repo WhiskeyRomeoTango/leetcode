@@ -26,7 +26,7 @@ def fibonacci(n): # This has a time complexity of O(n) because it runs only 1 pa
     return dp[n]
 ```
 
-Personally, I think it's a lousy way of introducing DP. Imagine you are doing fibonacci by hand on paper, you would write down 1 at pos 1, 1 at pos 2, 2 at pos 3, 3 at pos 4, 5 at pos 5, ... until you are at pos n. At any position i, you always know what's on i-1 and i-2 and just sum them up. The natural way to think about how to implement something by code is to think about how to implement it by hand. By doing that, I am already at the second function. On the other hand, although the first function is very clean and easy to implement, that's not how I would imagine a fibonacci sequence should be implemented.
+Personally, I think it's a lousy way of introducing DP. Imagine you are doing fibonacci by hand on paper, you would start writing down `1, 1, 2, 3, 5, 8, ...` until you are at pos `n`. At any position `i`, you always know what are on position `i-1` and `i-2` and you just sum them up to get what's on `i`. The natural way to think about how to implement something by code is to think about how to implement it by hand. By doing that, I am already at the second function. On the other hand, although the first function is very clean and easy to implement, that's not how I would imagine a fibonacci sequence should be implemented.
 
 Therefore, even though it's a great example of showing how impressive DP is, I think it's too shallow as an example to explain a complex technique used for many complex problems. Most of the interview or real-world problems won't be as straightforward as A+B - we need to spice it up a bit to see how DP really shines in some tricky situations.
 
@@ -42,7 +42,7 @@ Well, the solutions that are worth storing are those to the **common** sub-probl
 
 I really like [YouTuber Reducible's video on DP](https://www.youtube.com/watch?v=aPQY__2H3tE&ab_channel=Reducible). I am going to just list the steps he summarized (with a bit of my addition), and then use a problem to illustrate how to apply these steps.
 
-0. Determine Whether DP is Useful for the Problem (discussed above already)
+0. Determine Whether DP is Useful for the Problem (already discussed above)
 1. Identify the Variables and Visualize Examples
 2. Find an Appropriate Sub-problem
 3. Find Relationships among Sub-problems
@@ -87,11 +87,11 @@ def uniquePaths(m: int, n: int) -> int:
 
 Why would this take so long? The problem is that we are literally trying every single step to try to generate a path to the finish point, and once we reach it, we would backtrack all the way back to the starting point, and then take the other direction and do it all over again. Similar to the recursive, non-DP fibonacci algorithm, at each function call, we generate a binary tree to either go right or go down. The key is that throughout this process we will revist the same position we've been before, and **run the same calculation repeatedly**. This results in a time complexity of O(2^n) which is very very bad.
 
-Therefore, we can try to use DP for this problem, identifying the sub-problems we can solve and storing their solutions for later reuse.
+Therefore, we know we can use DP for this problem to enhance efficiency. Now we can start actually solving it.
 
 ### Step 1: Identify the Variables and Visualize Examples:
 
-I'm not going to use the diagram above as example. Instead we'll just try a simpler one of a 3x3 maze below.
+I'm not going to use the diagram above as an example. Instead we'll just try a simpler one of a 3x2 maze below.
 
 ```
 ---------
@@ -108,13 +108,13 @@ The only changing variable is the **location** of the robot, and we can use a `(
 Since the dumb robot can only move right or down in the grid, we can draw a simple graph of the paths it may take. It's actually going to be a binary tree, where the left branch is the new location when it moves down, and the right branch when it moves right. From this graph it's actually already clear that in this example there are 3 paths for the robot to get to the finish point. We also see in this graph that the tree is not perfect since we have the cases of the robot couldn't move further right or down when it hits the edge.
 
 ```
-         (0, 0)
-         /    \
-    (1, 0)    (0, 1)
-    /    \    /
-(2, 0)   (1, 1)
-    \    /
-    (2, 1)
+          (0, 0)
+          /    \
+     (1, 0)    (0, 1)
+     /    \    /
+(2, 0)    (1, 1)
+     \    /
+     (2, 1)
 ```
 
 ### Step 2: Find an Appropriate Sub-problem
@@ -122,11 +122,11 @@ Since the dumb robot can only move right or down in the grid, we can draw a simp
 A sub-problem has to be a simpler / smaller version of the parent problem. In this example, a sub-problem `paths(i, j)` is basically to find the # of paths for the robot to reach a preceding finish point of `(i, j)` where `i < m-1` or `j < n-1`. For example, to solve for `paths(1, 1)`, we get this following sub-tree from the tree above. And we can see that the robot has 2 paths to reach `(1, 1)`. We can also break down this further, where `paths(1, 0) = 1` and `paths(0, 1) = 1`.
 
 ```
-         (0, 0)
-         /    \
-    (1, 0)    (0, 1)
-         \    /
-         (1, 1)
+          (0, 0)
+          /    \
+     (1, 0)    (0, 1)
+          \    /
+          (1, 1)
 ```
 
 ### Step 3: Find Relationships among Sub-problems
