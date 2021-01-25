@@ -57,7 +57,7 @@ The robot can only move either down or right at any point in time. The robot is 
 
 How many possible unique paths are there?
 
-![Diagram](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/robot_maze.png)
+![Diagram](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/_assets/robot_maze.png)
 
 ### Step 1: Identify the Variables and Visualize Examples:
 
