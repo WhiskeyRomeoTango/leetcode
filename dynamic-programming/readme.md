@@ -6,7 +6,7 @@ Dynamic Programming (**DP** for short) is a programming / computing technique us
 
 ## Example of Fibonacci Sequence
 
-The definition makes it sound very cool and efficient, but that was it - most people (including me) still don't understand it when they see this definition for the first time. Many tutorials, teachers, or textbooks then use the classic example of fibonacci sequence to illustrate it. That is, a very costly recursive function of calculating the fibonacci number at position n:
+The definition makes it sound very cool and efficient, but that was it - most people (including me) still don't understand it when they see this definition for the first time. Many tutorials, teachers, or textbooks then use the classic example of fibonacci sequence to illustrate it. A very costly recursive function of calculating the fibonacci number at position n:
 
 ```python
 def fibonacci(n): # This has a time complexity of O(2^n) as it creates a binary tree at each call, O(1.618^n) to be exact
