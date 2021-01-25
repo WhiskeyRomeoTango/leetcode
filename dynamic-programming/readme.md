@@ -62,7 +62,7 @@ How many possible unique paths are there?
 
 ### Step 0: Determine Whether DP is Useful for the Problem
 
-Just for the fun, I implemented a backtracking algorithm to solve this problem, as shown below. Although I tested extensively and confirmed this is working, it exceeded time limit on LeetCode OJ, which indicates that my algorithm is too slow (of course it is).
+Just for the fun, I implemented a backtracking algorithm to solve this problem, as shown below. Although I tested extensively and confirmed this is working, it exceeded time limit on LeetCode OJ, which indicates that my algorithm is too slow.
 
 ```python
 def uniquePaths(self, m: int, n: int) -> int:
@@ -82,6 +82,8 @@ def uniquePaths(self, m: int, n: int) -> int:
         backtrack(0, 0)
         return sum(paths)
 ```
+
+Why would this take so long? The problem is that we are literally trying every single step to try to generate a path to the finish point, and once we reach it, we would backtrack all the way back to the starting point, and then take the other direction and do it all over again. Similar to the recursive, non-DP fibonacci algorithm, at each function call, we generate a binary tree to either go right or go down. Throughout this process we will revist the same position we've been before, and **run the same calculation repeatedly**. This results in a time complexity of O(2^n) which is very very bad. 
 
 ### Step 1: Identify the Variables and Visualize Examples:
 
