@@ -78,13 +78,13 @@ The only changing variable is the **location** of the robot, and we can use a `(
 Since the dumb robot can only move right or down in the grid, we can draw a simple DAG of the paths it may take. It's actually just going to be a binary tree, where the left branch is the new location when it moves down, and the right branch when it moves right. From this graph it's actually already clear that in this example there are 3 paths for the robot to get to the finish point. We also see in this graph that the tree is not perfect since we have the cases of the robot couldn't move further right or down when it hits the edge.
 
 ```
-       (0, 0)
-       /    \
-   (1, 0)  (0, 1)
-   /    \  /
-(2, 0) (1, 1)
-   \    /
-   (2, 1)
+         (0, 0)
+         /    \
+    (1, 0)    (0, 1)
+    /    \    /
+(2, 0)   (1, 1)
+    \    /
+    (2, 1)
 ```
 
 ### Step 2: Find an Appropriate Sub-problem
@@ -92,11 +92,11 @@ Since the dumb robot can only move right or down in the grid, we can draw a simp
 A sub-problem has to be simpler version of the parent problem. In this example, a sub-problem `paths(i, j)` is basically to find the # of paths for the robot to reach a preceding finish point of `(i, j)` where `i < m-1` or `j < n-1`. For example, to solve for `paths(1, 1)`, we get this following sub-tree from the tree above. And we can see that the robot has 2 paths to reach `(1, 1)`. We can also break down this further, where `paths(1, 0) = 1` and `paths(0, 1) = 1`.
 
 ```
-       (0, 0)
-       /    \
-   (1, 0)  (0, 1)
-       \    /
-       (1, 1)
+         (0, 0)
+         /    \
+    (1, 0)    (0, 1)
+         \    /
+         (1, 1)
 ```
 
 ### Step 3: Find Relationships among Sub-problems
