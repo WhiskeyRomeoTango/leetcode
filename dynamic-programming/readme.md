@@ -26,7 +26,7 @@ def fibonacci(n): # This has a time complexity of O(n) because it runs only 1 pa
     return dp[n]
 ```
 
-Although it's a great example of showing how impressive DP, I think it's too shallow as an example to explain a complex technique used for many complex problems. Most of the interview or real-world problems won't be as straightforward as A+B - we need to spice it up a bit to see how DP shines.
+Although it's a great example of showing how impressive DP is, I think it's too shallow as an example to explain a complex technique used for many complex problems. Most of the interview or real-world problems won't be as straightforward as A+B - we need to spice it up a bit to see how DP shines.
 
 ## How to Identify if DP is Suitable for A Problem
 
