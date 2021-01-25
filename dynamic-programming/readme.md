@@ -135,19 +135,19 @@ If we inspect `paths(1, 1)` a bit closer, we can see that there are 2 paths the 
 
 For `paths(2, 0)`, there is only 1 path - that is from `(0, 0)` to `(1, 0)` to `(2, 0)`. No detour here.
 
-Finally `paths(2, 1)` which is also just our ultimate problem. The robot can get there from either `(2, 0)` or `(1, 1)`. We already saw that there are 1 and 2 paths to get to them respectively, and therefore there will be `2 + 1 = 3` paths to get to `(0, 0)`.
+Finally `paths(2, 1)` which is also just our ultimate problem. The robot can get there from either `(2, 0)` or `(1, 1)`. We already saw that there are 1 and 2 paths to get to them respectively, and therefore there will be `2 + 1 = 3` paths to get to `(2, 1)`.
 
 ### Step 4: Generalize the Relationship
 
 By now it should already be very clear that a simple relationship can be established here - a robot at `(i, j)` would have only come from `(i-1, J)` or `(i, j-1)`, representing the position on the top or on the left of it. There is further restriction that the robot couldn't have come from `(i, j)` if `i < 0` or `j < 0`.
 
-Also, sicne the problem is about counting the # of paths, then `paths(i, j) = paths(i-1, j) + paths(i, j-1)`, following the same constraint above as well.
+Since the problem is about counting the # of paths, then `paths(i, j) = paths(i-1, j) + paths(i, j-1)`, following the same constraint above as well.
 
 ### Step 5: Implement by Solving Sub-problems in Order
 
-Before we solve these subproblems, we need to create a data structure to perform memoization, i.e. storing the solutions. Normally we will just use the same data structure of the given problem. In this example, we'll just create `m x n` 2-d array / list structure to hold the solutions while we iterate through the board. 
+Before we solve these subproblems, we need to create a data structure to perform memoization, i.e. storing the solutions. Normally we will just go with the same data structure of the given input. In this example however, we are just given `m` and `n`, so we'll just create a `m x n` 2-d array / list structure to hold the solutions while we iterate through the board. 
 
-Note that since we start at `(0, 0)` and to satisfy the relationship we established above, we will need to set `dp[0][0] = 1`. This also guarantees that our algorithm will get the correct solution for the edge case where the robot works in a `1x1` grid, and it's already at the finish point at the start.
+Note that since we start at `(0, 0)` and need to satisfy the relationship we established above, we will set `dp[0][0] = 1`. This also guarantees that our algorithm will get the correct solution for the edge case where the robot works in a `1x1` grid, where it's already at the finish point at the start.
 
 ```python
 dp = [ [0] * m ] * n
