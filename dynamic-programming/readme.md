@@ -26,7 +26,7 @@ def fibonacci(n): # This has a time complexity of O(n) because it runs only 1 pa
     return dp[n]
 ```
 
-Personally I think it's a great example of showing how impressive not the best way to introduce DP, because it's a very shallow example used for explaning a technique used for many complicated problems. 
+Although it's a great example of showing how impressive not the best way to introduce DP, I think it's too shallow as an example to explain a complex technique used for many complex problems. 
 
 ## How to Identify if DP is Suitable for A Problem
 
