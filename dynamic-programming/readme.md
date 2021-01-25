@@ -4,7 +4,7 @@
 
 Dynamic Programming (**DP** for short) is a programming / computing technique used commonly for optimization problems. It simplifies a problem by 1) **breaking down the problem into simpler sub-problems**, and 2) **storing the solution to each sub-problem** so that future calculations can be avoided when the sub-problem is revisted. The technique in part 2) of storing solutions of sub-problems is called **Memoization**.
 
-## Example of Fibonacci Sequence
+## (Bad?) Example of Fibonacci Sequence
 
 The definition makes it sound very cool and efficient, but that was it - most people (including me) still don't understand it when they see this definition for the first time. Many tutorials, teachers, or textbooks then use the classic example of fibonacci sequence to illustrate it. A very costly recursive function of calculating the fibonacci number at position n:
 
