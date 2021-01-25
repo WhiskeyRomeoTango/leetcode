@@ -40,6 +40,7 @@ The solutions that are worth storing are the ones we have to solve **repeatedly*
 
 I really like [YouTuber Reducible's video on DP](https://www.youtube.com/watch?v=aPQY__2H3tE&ab_channel=Reducible). I am going to just list the steps he summarized (with a bit of my addition), and then use a problem to illustrate how to apply these steps.
 
+0. Determine Whether DP is Useful for the Problem (discussed above already)
 1. Identify the Variables and Visualize Examples (w/ Directed Acyclic Graph)
 2. Find an Appropriate Sub-problem
 3. Find Relationships among Sub-problems
@@ -58,6 +59,29 @@ The robot can only move either down or right at any point in time. The robot is 
 How many possible unique paths are there?
 
 ![Diagram](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/_assets/robot_maze.png)
+
+### Step 0: Determine Whether DP is Useful for the Problem
+
+Just for the fun, I implemented a backtracking algorithm to solve this problem, as shown below. Although I tested extensively and confirmed this is working, it exceeded time limit on LeetCode OJ, which indicates that my algorithm is too slow (of course it is).
+
+```python
+def uniquePaths(self, m: int, n: int) -> int:
+
+        paths = []
+        
+        def backtrack(i, j):
+            if i == n-1 and j == m-1:
+                paths.append(1)
+                
+            else:
+                if i < n - 1:
+                    backtrack(i + 1, j)
+                if j < m - 1:
+                    backtrack(i, j + 1)
+                    
+        backtrack(0, 0)
+        return sum(paths)
+```
 
 ### Step 1: Identify the Variables and Visualize Examples:
 
