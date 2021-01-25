@@ -89,7 +89,7 @@ Why would this take so long? The problem is that we are literally trying every s
 
 Therefore, we know we can use DP for this problem to enhance efficiency. Now we can start actually solving it.
 
-### Step 1: Identify the Variables and Visualize Examples:
+### Step 1: Identify the Variables and Visualize Examples
 
 I'm not going to use the diagram above as an example. Instead we'll just try a simpler one of a 3x2 maze below.
 
