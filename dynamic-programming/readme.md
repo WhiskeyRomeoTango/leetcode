@@ -148,7 +148,8 @@ Before we solve these subproblems, we need to create a data structure to perform
 Note that since we start at `(0, 0)` and to satisfy the relationship we established above, we will need to set `dp[0][0] = 1`. This also guarantees that our algorithm will get the correct solution for the edge case where the robot works in a `1x1` grid, and it's already at the finish point at the start.
 
 ```python
-dp = [ [1 for col in range(m)] for row in range(n) ]
+dp = [ [0] * m ] * n
+dp[0][0] = 1
 ```
 
 Since the robot can only go right or down, we can just iterate the grid normally (i.e. top-down, left-right). In the loops, we will just skip `(0, 0)` as discussed above since it's a special case. Otherwise, we will add `dp[i-1][j]` to the solution if `i != 0`, and also add `dp[i][j-1]` if `j != 0`. Eventually, when we are out of the loops, we just need to return `dp[-1][-1]` which will be solution for the bottom-right coordinate.
@@ -156,7 +157,8 @@ Since the robot can only go right or down, we can just iterate the grid normally
 ```python
 def uniquePaths(self, m: int, n: int) -> int:
         
-    dp = [ [1 for col in range(m)] for row in range(n) ]
+    dp = [ [0] * m ] * n
+    dp[0][0] = 1
 
     for i in range(n):
         for j in range(m):
@@ -169,5 +171,5 @@ def uniquePaths(self, m: int, n: int) -> int:
                 paths += dp[i][j-1]
             dp[i][j] = paths
 
-    return dp[-1][-1]
+    return dp[n-1][m-1]
 ```
