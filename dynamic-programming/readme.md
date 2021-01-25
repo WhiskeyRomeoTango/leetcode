@@ -4,12 +4,12 @@
 
 Dynamic Programming (**DP** for short) is a programming / computing technique used commonly for optimization problems. It simplifies a problem by 1) **breaking down the problem into simpler sub-problems**, and 2) **storing the solution to each sub-problem** so that future calculations can be avoided when the sub-problem is revisted. The technique in part 2) of storing solutions of sub-problems is called **Memoization**.
 
-## (Bad?) Example of Fibonacci Sequence
+## Example of Fibonacci Sequence
 
-This sounds very cool and efficient, but that was it - most people (including me) still don't understand it when they see this definition for the first time. Many tutorials, teachers, or textbooks then use the classic example of fibonacci sequence to illustrate it. That is, a very costly recursive function of calculating the fibonacci number at position n:
+The definition makes it soundd very cool and efficient, but that was it - most people (including me) still don't understand it when they see this definition for the first time. Many tutorials, teachers, or textbooks then use the classic example of fibonacci sequence to illustrate it. That is, a very costly recursive function of calculating the fibonacci number at position n:
 
 ```python
-def fibonacci(n): # This recursion has a time complexity of O(2^n) because it creates a binary tree, O(1.618^n) to be exact
+def fibonacci(n): # This has a time complexity of O(2^n) as it creates a binary tree at each call, O(1.618^n) to be exact
     if n == 0: return 0
     elif n == 1: return 1
     else: return fibonacci(n-1) + fibonacci(n-2)
@@ -18,7 +18,7 @@ def fibonacci(n): # This recursion has a time complexity of O(2^n) because it cr
 becomes
 
 ```python
-def fibonacci(n): # This function has a time complexity of O(n) because it runs only 1 pass
+def fibonacci(n): # This has a time complexity of O(n) because it runs only 1 pass
     dp = [0] * (n + 1)
     dp[0], dp[1] = 0, 1
     for i in range(2, n + 1):
@@ -26,7 +26,7 @@ def fibonacci(n): # This function has a time complexity of O(n) because it runs 
     return dp[n]
 ```
 
-Personally I think it's a lousy way of introducing DP, because it's a very shallow example used for explaning a technique used for many complicated problems Interviewers won't ever ask you to implement a fibonacci function, and the problem they give you will be much more complex than this.
+Personally I think it's a great example of showing how impressive not the best way to introduce DP, because it's a very shallow example used for explaning a technique used for many complicated problems. 
 
 ## How to Identify if DP is Suitable for A Problem
 
