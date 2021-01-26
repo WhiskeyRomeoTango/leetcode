@@ -50,7 +50,7 @@ I really like [YouTuber Reducible's video on DP](https://www.youtube.com/watch?v
 5. Implement by Solving Sub-problems in Order
 6. (Optional) Optimize Space Complexity of Memoization
 
-## Example - 62: Unique Paths 
+## Example - 62. Unique Paths 
 
 ### Problem Description
 
@@ -175,3 +175,34 @@ def uniquePaths(m: int, n: int) -> int:
 
     return dp[n-1][m-1]
 ```
+
+## Example - 1641. Count Sorted Vowel Strings
+
+### Problem Description
+
+Given an integer `n`, return the number of strings of length `n` that consist only of vowels (`a`, `e`, `i`, `o`, `u`) and are **lexicographically sorted**.
+
+A string `s` is **lexicographically sorted** if for all valid `i`, `s[i]` is the same as or comes before `s[i+1]` in the alphabet.
+
+### Step 0: Determine Whether DP is Useful for the Problem
+
+
+
+### Step 1: Identify the Variables and Visualize Examples
+
+
+
+### Step 2: Find an Appropriate Sub-problem
+
+
+
+### Step 3: Find Relationships among Sub-problems
+
+
+
+### Step 4: Generalize the Relationship
+
+
+
+### Step 5: Implement by Solving Sub-problems in Order
+
