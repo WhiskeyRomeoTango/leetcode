@@ -231,25 +231,25 @@ The only changing variable in this problem is the length of the string we will g
 
 ### Step 2: Find an Appropriate Sub-problem
 
-We've pretty much already finished this step in the last step. Very intuitively, the sub-problem is just to find the number of possible strings of length `i` where `i < n`. The solutions for `n = 0, 1, 2, 3` are just respective `0`, `5`, `15`, `35`. 
+We've pretty much already finished this in the last step. Very intuitively, the sub-problem is just to find the number of possible strings of length `i` where `i < n`. The solutions for `n = 0, 1, 2, 3` are just respective `0`, `5`, `15`, `35`. 
 
 ### Step 3: Find Relationships among Sub-problems
 
 In the example above, what's the relationship between `n = 1` and `n = 2`?
 
 * We can only put `a` after `a`, and there is only 1 `a` generated from `n = 1`, so there is only 1 possible location for `a` for `n = 2`;
-* We can only put `e` after `a` and `e`, and there are 1 `a` and 1 `e` generated from `n = 1`, so there are 1 + 1 = 2 possible locations for `e` for `n = 2`.
-* We can only put `i` after `a`, `e`, `i`, and there are 1 `a`, 1 `e`, 1 `i` generated from `n = 1`, so there are 1 + 1 + 1 = 3 possible locations for `i` for `n = 2`.
-* We can only put `o` after `a`, `e`, `i`, `o`, and there are 1 `a`, 1 `e`, 1 `i`, 1 `o` generated from `n = 1`, so there are 1 + 1 + 1 + 1 = 4 possible locations for `o` for `n = 2`.
+* We can only put `e` after `a` and `e`, and there are 1 `a` and 1 `e` generated from `n = 1`, so there are 1 + 1 = 2 possible locations for `e` for `n = 2`;
+* We can only put `i` after `a`, `e`, `i`, and there are 1 `a`, 1 `e`, 1 `i` generated from `n = 1`, so there are 1 + 1 + 1 = 3 possible locations for `i` for `n = 2`;
+* We can only put `o` after `a`, `e`, `i`, `o`, and there are 1 `a`, 1 `e`, 1 `i`, 1 `o` generated from `n = 1`, so there are 1 + 1 + 1 + 1 = 4 possible locations for `o` for `n = 2`;
 * We can only put `u` after `a`, `e`, `i`, `o`, `u`, and there are 1 `a`, 1 `e`, 1 `i`, 1 `o`, 1 `u` generated from `n = 1`, so there are 1 + 1 + 1 + 1 + 1 = 5 possible locations for `u` for `n = 2`.
 
 What about the relationship between `n = 2` and `n = 3`? It's the same logic.
 
-* There is only 1 `a` generated from `n = 2`, so there is only 1 possible location for `a` for `n = 3`;
-* There are 1 `a` and 2 `e` generated from `n = 2`, so there are 1 + 2 = 3 possible locations for `e` for `n = 3`.
-* There are 1 `a`, 2 `e`, 3 `i` generated from `n = 2`, so there are 1 + 2 + 3 = 6 possible locations for `i` for `n = 3`.
-* There are 1 `a`, 2 `e`, 3 `i`, 4 `o` generated from `n = 2`, so there are 1 + 2 + 3 + 4 = 10 possible locations for `o` for `n = 3`.
-* There are 1 `a`, 2 `e`, 3 `i`, 4 `o`, 5 `u` generated from `n = 2`, so there are 1 + 2 + 3 + 4 + 5 = 15 possible locations for `u` for `n = 3`.
+* There is only 1 `a` generated from `n = 2`, so there is only 1 possible location for `a`;
+* There are 1 `a` and 2 `e` generated from `n = 2`, so there are 1 + 2 = 3 possible locations for `e`;
+* There are 1 `a`, 2 `e`, 3 `i` generated from `n = 2`, so there are 1 + 2 + 3 = 6 possible locations for `i`;
+* There are 1 `a`, 2 `e`, 3 `i`, 4 `o` generated from `n = 2`, so there are 1 + 2 + 3 + 4 = 10 possible locations for `o`;
+* There are 1 `a`, 2 `e`, 3 `i`, 4 `o`, 5 `u` generated from `n = 2`, so there are 1 + 2 + 3 + 4 + 5 = 15 possible locations for `u`.
 
 ### Step 4: Generalize the Relationship
 
