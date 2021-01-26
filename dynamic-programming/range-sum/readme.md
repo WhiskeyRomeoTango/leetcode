@@ -20,15 +20,15 @@ Using DP to solve the problem requires us to find sub-problems. So what are my s
 
 Well, a sub-problem should be a smaller version of the parent problem. In this case, my sub-problems are getting results of `matrixSum[r][c]` where `r < 2` or `c < 2`. Below are some sub-problems that will help us.
 
-* `matrixSum[1][2]`
+* `matrixSum[1][2]` - the yellow-shaded box
 
 ![Prefix Sum Example 2](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/range-sum/_assets/example_2.jpg)
 
-* `matrixSum[2][1]`
+* `matrixSum[2][1]` - the blue-shaded box
 
 ![Prefix Sum Example 3](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/range-sum/_assets/example_3.jpg)
 
-* `matrixSum[1][1]`, the green-shaded area, which is the overlapping box of the previous 2 boxes.
+* `matrixSum[1][1]`, the green-shaded area, which is just the overlapping box of the previous 2 boxes.
 
 ![Prefix Sum Example 4](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/range-sum/_assets/example_4.jpg)
 
@@ -67,3 +67,32 @@ def prefixSum(matrix):
 ```
 
 Now, with the prefix sum algorithm in hand, we can try some spicier stuff.
+
+## Example - 304. Range Sum Query 2D - Immutable
+
+Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).
+
+![Range Sum Example 1](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/range-sum/_assets/example_range_1.jpg)
+
+The above rectangle (with the red border) is defined by (row1, col1) = (2, 1) and (row2, col2) = (4, 3), which contains sum = 8.
+
+**Example:**
+
+```
+Given matrix = [
+  [3, 0, 1, 4, 2],
+  [5, 6, 3, 2, 1],
+  [1, 2, 0, 1, 5],
+  [4, 1, 0, 1, 7],
+  [1, 0, 3, 0, 5]
+]
+
+sumRegion(2, 1, 4, 3) -> 8
+sumRegion(1, 1, 2, 2) -> 11
+sumRegion(1, 2, 2, 4) -> 12
+```
+
+Note:
+* You may assume that the matrix does not change.
+* There are many calls to sumRegion function.
+* You may assume that row1 ≤ row2 and col1 ≤ col2.
