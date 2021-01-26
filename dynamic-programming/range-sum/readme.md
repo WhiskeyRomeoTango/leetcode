@@ -150,3 +150,7 @@ class NumMatrix:
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
         return self.dp[row2+1][col2+1] - self.dp[row1][col2+1] - self.dp[row2+1][col1] + self.dp[row1][col1]
 ```
+
+## Similar Problems
+
+[1314. Matrix Block Sum](https://leetcode.com/problems/matrix-block-sum/)
