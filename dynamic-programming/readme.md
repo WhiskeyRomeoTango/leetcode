@@ -318,7 +318,8 @@ def countVowelStrings(n: int) -> int:
 
     for i in range(2, n + 1):
         newDp = [ sum(dp[:j]) for j in range(1, 6) ]
-        dp = newDp[:] # need to create a hard copy here, otherwise the two variables point to the same list and mess up our calculations above
+        dp = newDp[:] 
+        # need to create a hard copy here, otherwise the two variables point to the same list and mess up our calculations above
 
     return sum(newDp)
 ```
