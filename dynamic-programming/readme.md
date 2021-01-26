@@ -186,23 +186,118 @@ A string `s` is **lexicographically sorted** if for all valid `i`, `s[i]` is the
 
 ### Step 0: Determine Whether DP is Useful for the Problem
 
+I feel this one is really a stretch. I started LeetCode with backtracking when I met this problem the first time. There I implemented the backtracking algorithm below that solved this problem in over 7,000 ms, which sounded very slow.
 
+```python
+def countVowelStrings(self, n: int) -> int:
+    
+    candidates = ['a', 'e', 'i', 'o', 'u'] # make sure this is sorted
+    results = []
+
+    def backtrack(s: str, index: int) -> None:
+        if len(s) == n:
+            results.append(s)
+            return
+        else:
+            for i in range(index, len(candidates)):
+                backtrack(s + candidates[i], i)
+
+    backtrack('', 0)
+    return len(results)
+```
+
+Imagine if you are asked to do this by hand, this backtracking approach would be exactly what you do. For example, let's set `n=3`. Note that we made sure the list `candidates` was sorted, and we kept track of our position within `candidates` so we generate only lexicographically sorted strings. Therefore, this backtracking algorithm will first generate `'aaa'`, and from there we will backtrack and subsequently generate `'aae'`, `'aai'`, `'aao'`, `'aau'`. After that, it's time to backtrack to the preceeding character, and we start with `e` in the 2nd position, `'aee'`, `'aei'`, ... 
+
+For each position `i`, we calculate the number of characters we can based on what's in position 'i-1'. 
+
+* If `a[i]` is `'a'`, we can put all 5 candidates next;
+* If `a[i]` is `'e'`, we can put 4 candidates next, excluding `'a'`;
+* If `a[i]` is `'i'`, we can put 3 candidates next, excluding `'a'` and `'e'`;
+* If `a[i]` is `'o'`, we can put 2 candidates next, excluding `'a'`, `'e'`, and `'i'`;
+* If `a[i]` is `'u'`, we can put only 1 candidate next, which is just `'u'` itself.
+
+We do this by repeatedly looping through the list `candidates` 5, 4, 3, 2, and 1 times at each position, which becomes a time sink when n gets larger. However we can remember this pattern and memonize it, so we don't have to loop through it again.
 
 ### Step 1: Identify the Variables and Visualize Examples
 
+The only changing variable in this problem is the length of the string we will genenrate. Let's first visualize it, again using example of `n=3`. Instead of drawing graphs, we will try to use a table here. The table we are using here tracks the number of strings that ends with a certain vowel at each string length `n`. 
 
+| Length | a | e | i | o | u | Total | Note |
+| - | - | - | - | - | - | - | - |
+| `n = 0` | 0 | 0 | 0 | 0 | 0 | **0** | No string |
+| `n = 1` | 1 | 1 | 1 | 1 | 1 | **5** | 1 for each vowel |
+| `n = 2` | 1 | 2 | 3 | 4 | 5 | **15** | `a` can only go after itself, so there is only 1 `aa`; `e` can go after `a` and `e`, so there are `ae`, `ee`; `i` can go after `a`, `e`, `i`, so there are `ai`, `ei`, `ii`; ... |
+| `n = 3` | 1 | 3 | 6 | 10 | 15 | **35** | `a` can only go after itself, so there is only 1 `aaa`; `e` can go after `a` and `e`, so there are `aae`, `aee`, `eee`; `i` can go after `a`, `e`, `i`, so there are `aai`, `aei`, `aii`, `eei`, `eii`, `iii`; ... |
 
 ### Step 2: Find an Appropriate Sub-problem
 
-
+We've pretty much already finished this step in the last step. Very intuitively, the sub-problem is just to find the number of possible strings of length `i` where `i < n`. The solutions for `n = 0, 1, 2, 3` are just respective `0`, `5`, `15`, `35`. 
 
 ### Step 3: Find Relationships among Sub-problems
 
+In the example above, what's the relationship between `n = 1` and `n = 2`?
 
+* We can only put `a` after `a`, and there is only 1 `a` generated from `n = 1`, so there is only 1 possible location for `a` for `n = 2`;
+* We can only put `e` after `a` and `e`, and there are 1 `a` and 1 `e` generated from `n = 1`, so there are 1 + 1 = 2 possible locations for `e` for `n = 2`.
+* We can only put `i` after `a`, `e`, `i`, and there are 1 `a`, 1 `e`, 1 `i` generated from `n = 1`, so there are 1 + 1 + 1 = 3 possible locations for `i` for `n = 2`.
+* We can only put `o` after `a`, `e`, `i`, `o`, and there are 1 `a`, 1 `e`, 1 `i`, 1 `o` generated from `n = 1`, so there are 1 + 1 + 1 + 1 = 4 possible locations for `o` for `n = 2`.
+* We can only put `u` after `a`, `e`, `i`, `o`, `u`, and there are 1 `a`, 1 `e`, 1 `i`, 1 `o`, 1 `u` generated from `n = 1`, so there are 1 + 1 + 1 + 1 + 1 = 5 possible locations for `u` for `n = 2`.
+
+What about the relationship between `n = 2` and `n = 3`? It's the same logic.
+
+* There is only 1 `a` generated from `n = 2`, so there is only 1 possible location for `a` for `n = 3`;
+* There are 1 `a` and 2 `e` generated from `n = 2`, so there are 1 + 2 = 3 possible locations for `e` for `n = 3`.
+* There are 1 `a`, 2 `e`, 3 `i` generated from `n = 2`, so there are 1 + 2 + 3 = 6 possible locations for `i` for `n = 3`.
+* There are 1 `a`, 2 `e`, 3 `i`, 4 `o` generated from `n = 2`, so there are 1 + 2 + 3 + 4 = 10 possible locations for `o` for `n = 3`.
+* There are 1 `a`, 2 `e`, 3 `i`, 4 `o`, 5 `u` generated from `n = 2`, so there are 1 + 2 + 3 + 4 + 5 = 15 possible locations for `u` for `n = 3`.
 
 ### Step 4: Generalize the Relationship
 
+The relationship should be very clear to you by now. Imagine the table we created was just a `n x 5` 2d list structure `dp`. We can generalize the relationship as below:
 
+| Length | a | e | i | o | u |
+| - | - | - | - | - | - |
+| `n - 1` | `dp[n-1][0]` | `dp[n-1][1]` | `dp[n-1][2]` | `dp[n-1][3]` | `dp[n-1][4]` |
+| `n` | `dp[n-1][:1]` | `dp[n-1][0][:2]` | `dp[n-1][0][:3]` | `dp[n-1][0][:4]` | `dp[n-1][0][:5]` |
+
+Therefore, `dp[n] = [ dp[n-1][:j] for j in range(1, 6) ]`
 
 ### Step 5: Implement by Solving Sub-problems in Order
 
+Note that our relationship doesn't hold between `dp[0]` and `dp[1]`. Therefore, we will hard code those base cases. After that, we would just need to iterate from `2` to `n` and apply this relationship we identified. The time complexity here is `O(5*n)` or just `O(n)`, same for space complexity. 
+
+```python
+def countVowelStrings(n: int) -> int:
+
+    dp = [[0, 0, 0, 0, 0], [1, 1, 1, 1, 1]]
+
+    for i in range(2, n+1):
+        newDp = []
+        for j in range(1, len(dp[i-1]) + 1):
+            newDp.append(sum(dp[i-1][:j]))
+        dp.append(newDp)
+
+    return sum(dp[-1])
+```
+
+### Step 6: Optimize Space Complexity of Memoization
+
+DP is the classic example where we sacrafice space to optimize space complexity. However, we should always try to see if we can optimize the space complexity as well. This may be optional for an interview because of shortage of time. But it's definitely a plus if you can nail it.
+
+Note that for this problem, `dp[n]` is solely dependent on `dp[n-1]`. This is different from the previous robot problem we saw, where `dp[i][j]` depend on `dp[i-1][j]` and `dp[i][j-1]` - this is hard to keep track of when we iterate to a new row.
+
+Therefore, instead of memoizing the entire solution set, we just need to memoize the solution to the previous subproblem. Therefore we achieved constant extra space complexity of `O(1)`!
+
+```python
+def countVowelStrings(n: int) -> int:
+
+    dp = [1, 1, 1, 1, 1]
+    newDp = [1, 1, 1, 1, 1]
+
+    for i in range(2, n + 1):
+        for j in range(len(newDp)):
+            newDp[j] = sum(dp[:j+1])
+        dp = newDp[:] # need to create a hard copy here, otherwise the two variables point to the same list and mess up our calculations above
+
+    return sum(newDp)
+```
