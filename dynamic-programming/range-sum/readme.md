@@ -99,7 +99,7 @@ Note:
 * There are many calls to sumRegion function.
 * You may assume that row1 ≤ row2 and col1 ≤ col2.
 
-### Intuition & Solution
+### Intuition
 
 Note that we are using the same matrix as before. Previously in prefix sum, we anchored our top-left coordinate at `(0, 0)` for the box. In this problem, however, we need to deal with flexible top-left coordinate `(row1, col1)`. Can we use the memoized solutions from prefix sum to solve this generic range sum problem?
 
@@ -122,3 +122,29 @@ Let's say we already calculated the prefix sum matrix `prefixSum` for the given 
 ![Range Sum Example 5](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/range-sum/_assets/example_range_5.jpg)
 
 Then, the sum of the red box is just `prefixSum[5][4] - prefixSum[2][4] - prefixSum[5][1] + prefixSum[2][1] = 8`.
+
+To generalize the relationship:
+
+```
+rangeSum(row1, col1, row2, col2) = prefixSum[row2+1][col2+1] - prefixSum[row1][col2+1] - prefixSum[row2+1][col1] + prefixSum[row1][col1]
+```
+
+### Solution
+
+```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        self.matrix = matrix
+        if not self.matrix:
+            self.dp = [[0]]
+            return
+        self.dp = [ [0 for j in range(len(matrix[0]) + 1)] for i in range(len(matrix) + 1) ] 
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                self.dp[i+1][j+1] = self.dp[i][j+1] + self.dp[i+1][j] - self.dp[i][j] + self.matrix[i][j]
+        
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return self.dp[row2+1][col2+1] - self.dp[row1][col2+1] - self.dp[row2+1][col1] + self.dp[row1][col1]
+```
