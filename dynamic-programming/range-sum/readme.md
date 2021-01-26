@@ -131,6 +131,8 @@ rangeSum(row1, col1, row2, col2) = prefixSum[row2+1][col2+1] - prefixSum[row1][c
 
 ### Solution
 
+The time complexity of the constructor is `O(m*n)` for a `m x n` matrix, as we need to loop through the matrix to get the prefix sums. After that, each `sumRegion()` call is just `O(1)` constant time complexity. Again, the only reason we do this is that we are expected to run `sumRegion()` a lot of times, as described in the problem. If it's just a one-time calculation, then brute force approach is more efficient since just the worst case is `O(m*n)`.
+
 ```python
 class NumMatrix:
 
