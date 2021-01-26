@@ -211,7 +211,7 @@ Output: 66045
 
 ### Step 0: Determine Whether DP is Useful for the Problem
 
-I feel this one is really a stretch. I started LeetCode with backtracking when I met this problem the first time. There I implemented the backtracking algorithm below that solved this problem in over 7,000 ms, which sounded very slow.
+I first encountered this problem when I was LeetCoding the backtracking tag. There I implemented the backtracking algorithm below that solved this problem in over 7,000 ms, which sounded very slow.
 
 ```python
 def countVowelStrings(self, n: int) -> int:
