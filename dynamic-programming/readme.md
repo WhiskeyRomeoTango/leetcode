@@ -297,9 +297,7 @@ def countVowelStrings(n: int) -> int:
     dp = [[0, 0, 0, 0, 0], [1, 1, 1, 1, 1]]
 
     for i in range(2, n+1):
-        newDp = []
-        for j in range(1, len(dp[i-1]) + 1):
-            newDp.append(sum(dp[i-1][:j]))
+        newDp = [ sum(dp[i-1][:j]) for j in range(1, 6) ]
         dp.append(newDp)
 
     return sum(dp[-1])
@@ -316,12 +314,10 @@ Therefore, instead of memoizing the entire solution set, we just need to memoize
 ```python
 def countVowelStrings(n: int) -> int:
 
-    dp = [1, 1, 1, 1, 1]
-    newDp = [1, 1, 1, 1, 1]
+    dp, newDp = [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]
 
     for i in range(2, n + 1):
-        for j in range(len(newDp)):
-            newDp[j] = sum(dp[:j+1])
+        newDp = [ sum(dp[:j]) for j in range(1, 6) ]
         dp = newDp[:] # need to create a hard copy here, otherwise the two variables point to the same list and mess up our calculations above
 
     return sum(newDp)
