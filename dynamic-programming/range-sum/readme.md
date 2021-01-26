@@ -65,3 +65,5 @@ def prefixSum(matrix):
 > prefixSum(matrix)
 [[0, 0, 0, 0, 0, 0], [0, 3, 3, 4, 8, 10], [0, 8, 14, 18, 24, 27], [0, 9, 17, 21, 28, 36], [0, 13, 22, 26, 34, 49], [0, 14, 23, 30, 38, 58]]
 ```
+
+Now, with the prefix sum algorithm in hand, we can try some spicier stuff.
