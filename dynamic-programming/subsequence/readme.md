@@ -54,7 +54,7 @@ Naturally, our memoization container `dp` would be a 2d array storing the result
 
 ![LC 1143 Example 1](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_1.jpg)
 
-Now we start iterating. Right off the bat, the first character of each string is `'a'` when `i == 0` and `j == 0`. Therefore we need to add 1 to our previous result. But to which result? Well, the result we want to add to is `dp[0][0]`, because that's the place where we hadn't encountered the common character `'a'`. So `dp[1][1] = dp[0][0] + 1 = 0 + 1 = 1`. 
+Now we start iterating. Right off the bat, the first character of each string is `'a'` when `i == 0` and `j == 0`. Therefore we need to add 1 to our previous result. But to which result? Well, the result we want to add to is `dp[0][0]`, because that's **the last place where we hadn't encountered the common character `'a'`**. So `dp[1][1] = dp[0][0] + 1 = 0 + 1 = 1`. 
 
 ![LC 1143 Example 2](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_2.jpg)
 
