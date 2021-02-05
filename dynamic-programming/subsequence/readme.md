@@ -80,11 +80,31 @@ The rest of the journey will be rather simple. We'd encounter another common cha
 
 ![LC 1143 Example 7](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_7.jpg)
 
-I hope this lengthy walkthrough of the example is helpful for explaining the logic, because at least for me it was clear at first. Overall, we can summarize this workflow and generalize the relationships among the subproblems.
+I hope this lengthy walkthrough of the example is helpful for explaining the logic, because at least for me it was clear at first. Now, we can summarize this logic and generalize the relationships among the subproblems.
 
 ```python
 if text1[i] == text2[j]:
     dp[i+1][j+1] = dp[i][j] + 1
 else:
     dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j]) 
+```
+
+### Solution
+
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        
+        # Initialize the dp container as 2d array in 1-based index
+        dp = [ [0] * (len(text2) + 1) for _ in range(len(text1) + 1) ]
+        
+        # Iterate through the two strings and solve subproblems
+        for i in range(len(text1)):
+            for j in range(len(text2)):
+                if text1[i] == text2[j]:
+                    dp[i+1][j+1] = dp[i][j] + 1
+                else:
+                    dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j])
+                    
+        return dp[-1][-1]
 ```
