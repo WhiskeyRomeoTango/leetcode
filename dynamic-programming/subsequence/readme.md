@@ -44,11 +44,13 @@ Explanation: There is no such common subsequence, so the result is 0.
 
 ### Intuition
 
-I am going to make the example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all, and my longest common subsequence should remain `'ace'` and therefore the result should be 3.
+I am going to make Example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all, and my longest common subsequence should remain `'ace'` and therefore the result should be 3.
 
-There isn't any fancy or abstract data structure here - you are just given 2 strings to work with. In this case the subproblem or optimal substructure should just be working with subsets of these strings. The idea is that we want to iterate through the 2 strings with pointers `i` for `text1` and `j` for `text2`. For each `i`, `j` pair, we will get the maximum longest common subsequence between `text1[:i+1]` and `text2[:j+1]`, i.e. substrings of `text1` and `text2` ending at `i`, `j` indices.
+There isn't any fancy abstract data structure here - you are just given 2 strings to work with. In this case the subproblem or optimal substructure should naturally just be working with subsets of these strings. The idea is that we want to iterate through the 2 strings, character by character, with pointers `i` for `text1` and `j` for `text2`. For each `i`, `j` pair, we will get the maximum longest common subsequence between `text1[:i+1]` and `text2[:j+1]`, i.e. substrings of `text1` and `text2` ending at `i`, `j` indices.
 
-Naturally, our memoization container `dp` would be a 2d array storing the result for each `i`, `j` pair. But note that the size of `dp` is not `len(text1) x len(text2)`, because we also added a helper row and a helper column to track the result when the substrings are just empty strings, i.e. the edge cases when `i == 0` or `j == 0`. Therefore, we store the result for `i`, `j` pair at `dp[i+1][j+1]` (effectively, turning the container `dp` into 1-based index instead of 0-based index). For them, the longest common subsequence is obviously also just an empty string with length of 0's.
+> To do this, we will compare the pair of characters we encounter at each pass. If they are the same character, then we get a common subsequence that's 1 longer than the previously longest subsequence we've encountered. If they aren't the same, then we need to carry the length of current longest subsequence over for future use.
+
+Naturally, our memoization container `dp` would be a 2d array storing the result for each `i`, `j` pair. But note that the size of `dp` is not `len(text1) x len(text2)`, because we also added a helper row and a helper column to track the result when the substrings are just empty strings, i.e. the edge cases when `i == 0` or `j == 0`. Therefore, we store the result for `i`, `j` pair at `dp[i+1][j+1]` (effectively, turning the container `dp` into 1-based index instead of 0-based index). For them, the longest common subsequence is obviously just an empty string with length of 0.
 
 ![LC 1143 Example 1](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_1.jpg)
 
@@ -98,7 +100,7 @@ class Solution:
         # Initialize the dp container as 2d array in 1-based index
         dp = [ [0] * (len(text2) + 1) for _ in range(len(text1) + 1) ]
         
-        # Iterate through the two strings and solve subproblems
+        # Iterate through each character of the two strings and solve subproblems
         for i in range(len(text1)):
             for j in range(len(text2)):
                 if text1[i] == text2[j]:
