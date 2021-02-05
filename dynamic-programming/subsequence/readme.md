@@ -84,7 +84,7 @@ The rest of the journey will be rather simple. We'd encounter another common cha
 
 ![LC 1143 Example 7](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_7.jpg)
 
-I hope this lengthy walkthrough of the example is helpful for explaining the logic, because at least for me it was clear at first. Now, we can summarize this logic and generalize the relationships among the subproblems.
+I hope this lengthy walkthrough of the example is helpful for explaining the logic, because at least for me it wasn't clear at first. Now, we can summarize this logic and generalize the relationships among the subproblems.
 
 ```python
 if text1[i] == text2[j]:
