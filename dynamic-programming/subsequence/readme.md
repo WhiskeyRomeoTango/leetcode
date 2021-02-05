@@ -52,16 +52,20 @@ Naturally, our memoization container `dp` would be a 2d array storing the result
 
 ![LC 1143 Example 1](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_1.jpg)
 
-Now we start iterating. Right off the bat when `i == 0` and `j == 0`, the first character of each string is `'a'`. Therefore we need to add 1 to our previous result. But to which result? Well, the result we want to add to is `dp[0][0]`, because that's the place where we hadn't encountered the common character `'a'`. So `dp[1][1] = dp[0][0] + 1 = 0 + 1 = 1`. Don't worry if you are a little lost here, we will revisit this logic very soon to see why it should be this case.
+Now we start iterating. Right off the bat when `i == 0` and `j == 0`, the first character of each string is `'a'`. Therefore we need to add 1 to our previous result. But to which result? Well, the result we want to add to is `dp[0][0]`, because that's the place where we hadn't encountered the common character `'a'`. So `dp[1][1] = dp[0][0] + 1 = 0 + 1 = 1`. 
 
 ![LC 1143 Example 2](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_2.jpg)
 
 Moving on, we are at `(0, 1)` working with `'a'` and `'ac'` (trying to store the result at `dp[1][2]`). The ending characters are not common and therefore there is nothing to add here. However, we know from the previous state `dp[1][1]` that we already found a common subsequence of just `'a'` with length 1 - adding one more character in the end doesn't change that. 
 
-But, that's not the only previous result we need to check against. We would also check `dp[0][2]` where we stored the result of working with `''` and `'ac'` which is just length 0. Out of these two results, `1 > 0`, so we take the larger one. Therefore `dp[1][2] = max(dp[1][1], dp[0][2]) = max(1, 0) = 1`. Again, if this is not very clear, we'll make it clear later.
+But, that's not the only previous result we need to check against. We would also check `dp[0][2]` where we stored the result of working with `''` and `'ac'` which is just length 0. Out of these two results, `1 > 0`, so we take the larger one. Therefore `dp[1][2] = max(dp[1][1], dp[0][2]) = max(1, 0) = 1`. 
 
 ![LC 1143 Example 3](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_3.jpg)
 
-Here we are at `(0, 4)` or `dp[1][5]`, and once again we find a common ending character `'a'` again. However, this doesn't mean that we suddenly have a common subsequence `'aa'` of length 2, because in the `text1` substring there is only 1 `'a'`. So the logic we established earlier makes sense - we will add 1 to previous result where we hadn't encountered wither `'a'` - that was `dp[0][4]` and that had a result of length 0. So `dp[1][5] = dp[0][4] + 1 = 0 + 1 = 1`.
+Fast forward to `(0, 4)` or `dp[1][5]`, and once again we find a common ending character `'a'` again. However, this doesn't mean that we suddenly have a common subsequence `'aa'` of length 2, because in the `text1` substring there is only 1 `'a'`. So the logic we established earlier still holds - we will add 1 to previous result where we hadn't encountered wither `'a'` - that was `dp[0][4]` and that had a result of length 0. So `dp[1][5] = dp[0][4] + 1 = 0 + 1 = 1`. This effectively means that `dp[1][5]` represents the common subsequence consists of the 2nd `'a'` we encountered in `text2` substring.
 
 ![LC 1143 Example 4](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_4.jpg)
+
+Fast forward to `(3, 3)` or `dp[4][4]`. We would have just passed `(3, 2)` where we would have seen a common ending character of `'c'`. Therefore based on the logic `dp[4, 3] = 2`. As for `dp[3][4]`, the result was just 1. 
+
+![LC 1143 Example 5](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_5.jpg)
