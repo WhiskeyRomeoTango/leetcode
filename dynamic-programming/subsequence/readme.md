@@ -70,7 +70,7 @@ Effectively, `dp[1][5]` creates an alternative branch where the common subsequen
 
 ![LC 1143 Example 4](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_4.jpg)
 
-Fast forward to `(2, 2)` or `dp[3][3]`. We would have just passed `(2, 1)` where we would have seen a common ending character of `'c'`. Therefore based on the logic `dp[3, 2] = 2`. As for `dp[2][3]`, the result was just 1. Hence, `dp[3][3] = max(dp[2][3], dp[3][2]) = max(1, 2) = 2`.
+Fast forward to `(2, 2)` or `dp[3][3]`. We would have just passed `(2, 1)` where we would have seen a common ending character of `'c'`. So `dp[3, 2] = 2`. As for `dp[2][3]`, the result was just 1. Hence, `dp[3][3] = max(dp[2][3], dp[3][2]) = max(1, 2) = 2`.
 
 ![LC 1143 Example 5](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_5.jpg)
 
