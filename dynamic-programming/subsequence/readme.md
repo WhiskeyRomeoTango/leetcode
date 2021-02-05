@@ -74,7 +74,7 @@ Fast forward to `(2, 2)` or `dp[3][3]`. We would have just passed `(2, 1)` where
 
 ![LC 1143 Example 5](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_5.jpg)
 
-Fast forward to `(2, 4)` or `dp[3][5]`. **This is a very important step in fully understanding the logic**. We have 2 branches merging here and we need to choose 1 to go on. On the left, we have `dp[2][5]` with the common subsequence of length 1 consisting of the 2nd `'a'` we encountered in `text2`. On the top, we have `dp[3][4]` with the common subsequence of length 2 consisting of the 1st `'a'` we encountered in `text2`, and a `'c'`. Since the problem wants us to find the longest subsequence, we will need to go with the larger of the two - `dp[3][4]`. Therefore, `dp[3][5] = max(dp[2][5], dp[3][4]) = max(1, 2) = 2`. 
+Fast forward to `(2, 4)` or `dp[3][5]`. **This is a very important step in fully understanding the logic**. We have 2 branches colliding here. On the left, we have `dp[2][5]` with the common subsequence of length 1 consisting of the 2nd `'a'` we encountered in `text2`. On the top, we have `dp[3][4]` with the common subsequence of length 2 consisting of the 1st `'a'` we encountered in `text2`, and a `'c'`. Since the problem wants us to find the longest subsequence, we will need to go with the larger of the two - `dp[3][4]`. Therefore, `dp[3][5] = max(dp[2][5], dp[3][4]) = max(1, 2) = 2`. 
 
 From now on, we would no longer consider the alternative branch where we take the 2nd `'a'` in `text2`, because it's already shorter than the longest subsequence we got from the other branch, and we are already at the end of `text2` so it's impossible to get any longer.
 
