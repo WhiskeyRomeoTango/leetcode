@@ -66,7 +66,7 @@ But, that's not the only previous result we need to check against. We would also
 
 Fast forward to `(0, 4)` or `dp[1][5]`, and we actually find a common ending character `'a'`, again. However, this doesn't mean that we suddenly have a common subsequence `'aa'` of length 2, because in the `text1` substring there is only 1 `'a'`. So the logic we established earlier still holds - we will add 1 to previous result where we hadn't encountered with `'a'` - it was `dp[0][4]` with a result of length 0. So `dp[1][5] = dp[0][4] + 1 = 0 + 1 = 1`. 
 
-Effectively, `dp[1][5]` creates an alternative branch where the common subsequence consists of the 2nd `'a'` we encountered in `text2` substring. Since both branches have the same length 1, they will coexist in `dp` for the time being, until one branch is taken out when there is a longer common subsequence spotted within the other branch.
+Effectively, `dp[1][5]` creates an alternative branch where the common subsequence consists of the 2nd `'a'` we encountered in `text2` substring. Since both branches have the same length 1, they will coexist in `dp` for the time being, until one branch gets taken out later when we find a longer subsequence in the other branch. 
 
 ![LC 1143 Example 4](https://github.com/WhiskeyRomeoTango/leetcode/blob/main/dynamic-programming/subsequence/assets/1143_example_4.jpg)
 
