@@ -72,7 +72,7 @@ If we do it in a table, that's like this:
 |**4: `3`**  |  |  |  |  | `[3]`<br/>`dp[4]=1` | **`dp[4] <- [2,3,7]`<br/>`LIS(5)=1+2=3`** |
 |**5: `7`**  |  |  |  |  |  | `[7]`<br/>`dp[5]=1` |
 
-At this point it should already be clear what the pattern is:
+There are still a few more numbers we haven't checked, but at this point it should already be clear what the pattern is:
 
 1. Iterate through the array at each index `i`;
 2. Iterate through all the numbers before `nums[i]` at index `j` such that `j < i`;
@@ -148,9 +148,9 @@ Explanation: There is no such common subsequence, so the result is 0.
 
 ### Intuition
 
-I am going to make Example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all - my longest common subsequence should remain `'ace'` and therefore the result should be 3.
+I am going to make Example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all - my longest common subsequence should remain as `'ace'` and therefore the result should be 3.
 
-There isn't any fancy abstract data structure here - you are just given 2 strings to work with. In this case the subproblem or optimal substructure should naturally just be working with subsets of these strings. The idea is that we want to iterate through the 2 strings, character by character, with pointers `i` for `text1` and `j` for `text2`. For each `i`, `j` pair, we will get the maximum longest common subsequence between `text1[:i+1]` and `text2[:j+1]`, i.e. substrings of `text1` and `text2` ending at `i`, `j` indices.
+Again, there isn't any fancy abstract data structure here. However, it's slightly different from the previous example - we are working with 2 different sequences instead of 1. That doesn't really matter much because our subproblem or optimal substructure should still be working with slices of these sequences. The concept is still the same as the previous example - we want to iterate through the 2 strings, character by character, with pointers `i` for `text1` and `j` for `text2`. For each `i`, `j` pair, we will try to get the maximum longest common subsequence between `text1[:i+1]` and `text2[:j+1]`, i.e. substrings of `text1` and `text2` ending at `i`, `j` indices.
 
 > To do this, we will compare the pair of characters we encounter at each pass. If they are the same character, then we get a common subsequence that's 1 longer than the previously longest subsequence we've encountered. If they aren't the same, then we need to carry the length of current longest subsequence over for future use.
 
