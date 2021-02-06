@@ -68,8 +68,8 @@ If we do it in a table, that's like this:
 |**0: `10`** | **`[10]`<br/>`dp[0]=1`** | `10 > 9`<br/>`No LIS` | `10 > 2`<br/>`Not LIS` | `10 > 5`<br/>`Not LIS` | `10 > 3`<br/>`Not LIS` | `10 > 7`<br/>`Not LIS` |
 |**1: `9`**  |  | **`[9]`<br/>`dp[1]=1`** | `9 > 2`<br/>`Not LIS` | `9 > 5`<br/>`Not LIS` | `9 > 3`<br/>`Not LIS` | `9 > 7`<br/>`Not LIS` |
 |**2: `2`**  |  |  | **`[2]`<br/>`dp[2]=1`** | **`2 < 5`<br/>`dp[2] <- [2,5]`<br/>`dp[3]=1+1=2`** | **`2 < 3`<br/>`dp[2] <- [2,3]`<br/>`dp[4]=1+1=2`** | `2 < 7`<br/>`dp[2] <- [2,7]`<br/>`dp[5]=1+1=2` |
-|**3: `5`**  |  |  |  | `[5]`<br/>`dp[3]=1` | `5 > 3`<br/>`Not LIS` | **`dp[3] <- [2,5,7]`<br/>`dp[5]=1+2=3`** |
-|**4: `3`**  |  |  |  |  | `[3]`<br/>`dp[4]=1` | **`dp[4] <- [2,3,7]`<br/>`LIS(5)=1+2=3`** |
+|**3: `5`**  |  |  |  | `[5]`<br/>`dp[3]=1` | `5 > 3`<br/>`Not LIS` | **`5 < 7`<br/>`dp[3] <- [2,5,7]`<br/>`dp[5]=1+2=3`** |
+|**4: `3`**  |  |  |  |  | `[3]`<br/>`dp[4]=1` | **`3 < 7`<br/>`dp[4] <- [2,3,7]`<br/>`LIS(5)=1+2=3`** |
 |**5: `7`**  |  |  |  |  |  | `[7]`<br/>`dp[5]=1` |
 
 There are still a few more numbers we haven't checked, but at this point it should already be clear what the pattern is:
