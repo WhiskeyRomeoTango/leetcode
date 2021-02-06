@@ -2,9 +2,13 @@
 
 **Subsequence** problems can usually be solved efficiently by DP. On LeetCode, these problems usually have "subsequence" written in the title of the problem. However, we don't really have a problem title in interviews. How do we identify such questions?
 
-When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically contiguous cuts of the parents. If we are dealing strictly with contiguous subarray or substring, then two-pointer is probably a better approach. (Maybe ???)
+When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically contiguous slices of the parents. If we are dealing strictly with contiguous slices, then two-pointer may be a better approach (just an idea - this is not absolute, we still need to evaluate case by case). 
 
 Also, the word **sequence** suggests that there is a specific order that we would need to retain from the parent structure. If the order is not relevant and we are only looking for combinations, then backtracking might be the way to go.
+
+In this type of problems, we only work with vanilla linear data structure arrays or strings, so there isn't any fancy data structure we need to abstract, and naturally the subproblems are simply the same problem for a slice of parent structure. We typically need to iterate through the structure twice to explore all possibilities of starting / ending points of substructures. 
+
+Therefore, the best way to tackle these problems is to first draw a table to visualize the problem - the columns and rows of the table will be each element in the structure we will iterate to, and the table contents will be the specific subproblem we are dealing with at that column-row combination. We will illustrate this method in some examples below.
 
 ## Example - 300. Longest Increasing Subsequence
 
@@ -43,18 +47,30 @@ Output: 1
 
 ### Intuition
 
-Let's work with Example 1 above. In this problem, we are only given a list to work with, and that makes things simple - the subproblem must be to solve the same problem for a smaller subarray. So for the memoization container `dp`, we will define it so that `dp[i]` stores the length of the longest increasing subsequence (LIS) for the substring that ends at index `i`.
+Let's work with Example 1 above. In this problem, again we are only given an array to work with, and that makes things simple - the subproblem must be to solve the same problem for a smaller subarray. So for the memoization container `dp`, we will define it so that `dp[i]` stores the length of the longest increasing subsequence (LIS) for the substring that ends at index `i`.
 
-* Index `0` - we are only working with `[10]`, so the LIS must be itself. So `dp[0] = 1`. This is also a base case for us - if the list is of length 1, then the final answer should just be `1`.
-* Index `1` - we are working with `[10, 9]`. The LIS ends with number `9` would just be `[9]`. How do we know? Well duh, because number `10` is not smaller than number `9`. So `dp[1] = 1`.
-* Index `2` - we are working with `[10, 9, 2]`. Still, `dp[2] = 1`, because neither of `10` or `9` is not smaller than `2`.
-* Index `3` - we are working with `[10, 9, 2, 5]`. Things finally get a bit interesting here. Since `2` is smaller than `5`, we now have a subsequence of `[2, 5]` that has a length of `2`, so `dp[3] = 2`.
+* First of all, for any sequence, the minimum length of the LIS must be 1, because there exists at least a LIS with 1 number.
+* Index `0` - we are only working with `[10]`, so the LIS must be itself. Therefore, `dp[0] = 1`. This is also a base case for us - if the list is of length 1, then the final answer should just be `1`.
+* Index `1` - we are working with `[10, 9]`. The LIS ends with number `9` would just be `[9]`, because number `10` is not smaller than number `9`. So `dp[1] = 1`.
+* Index `2` - we are working with `[10, 9, 2]`. Still, The LIS ends with number `2` would just be `[2]`, because neither `10` nor `9` is smaller than `2`. So `dp[2] = 1`.
+* Index `3` - we are working with `[10, 9, 2, 5]`. Things finally get a bit interesting here. Since `2` is smaller than `5`, we now have a subsequence of `[2, 5]` that's constructed by adding `5` to the end of the LIS that ends with `2`. So `dp[3] = 2`.
 * Index `4` - we have `[10, 9, 2, 5, 3]`. Since `2` is smaller than `3`, `dp[4] = 2`.
 * Index `5` - we have `[10, 9, 2, 5, 3, 7]`. Since `2` is smaller than `7`, `dp[4] = 2`. `5` is smaller than `7`, so `dp[4] = 3`. Finally, `3` is also smaller than `7`, but note that `dp[4]` is not incremented to `4`. Why so? We know that all of `2`, `5`, and `3` can come right before `7`.
     - If we want `2` to come right before `7`, we just need to get the LIS that ends with `2`, and add `7` to it. So the result is `dp[2] + 1 = 1 + 1 = 2`.
     - If we want `5` to come right before `7`, we just need to get the LIS that ends with `5`, and add `7` to it. So the result is `dp[3] + 1 = 2 + 1 = 3`.
-    - If we want `3` to come right before `7`, we just need to get the LIS that ends with `3`, and add `7` to it. So the result is `dp[4] + 1 = 2 + 1 = 2`.
+    - If we want `3` to come right before `7`, we just need to get the LIS that ends with `3`, and add `7` to it. So the result is `dp[4] + 1 = 2 + 1 = 3`.
 * ...
+
+If we do it in a table, that's like this:
+
+| start\end  | 0: `10` | 1: `9` | 2: `2` | 3: `5` | 4: `3` | 5: `7` |
+|:----------:|:-----:|:----:|:----:|:----:|:----:|:----:|
+|**0: `10`** | **`[10]`<br/>`LIS(0)=1`** | `10>9`<br/>`No LIS` | `10>2`<br/>`Not LIS` | `10>5`<br/>`Not LIS` | `10>3`<br/>`Not LIS` | `10>7`<br/>`Not LIS` |
+|**1: `9`**  |  | **`[9]`<br/>`LIS(1)=1`** | `9>2`<br/>`Not LIS` | `9>5`<br/>`Not LIS` | `9>3`<br/>`Not LIS` | `9>7`<br/>`Not LIS` |
+|**2: `2`**  |  |  | **`[2]`<br/>`LIS(2)=1`** | **`LIS(2) <- [2,5]`<br/>`LIS(3)=1+1=2`** | **`LIS(2) <- [2,3]`<br/>`LIS(4)=1+1=2`** | `LIS(2) <- [2,7]`<br/>`LIS(5)=1+1=2` |
+|**3: `5`**  |  |  |  | `[5]`<br/>`LIS(3)=1` | `5>3`<br/>`Not LIS` | **`LIS(3) <- [2,5,7]`<br/>`LIS(5)=1+2=3`** |
+|**4: `3`**  |  |  |  |  | `[3]`<br/>`LIS(4)=1` | **`LIS(4) <- [2,3,7]`<br/>`LIS(5)=1+2=3`** |
+|**5: `7`**  |  |  |  |  |  | `[7]`<br/>`LIS(5)=1` |
 
 At this point it should already be clear what the pattern is:
 
