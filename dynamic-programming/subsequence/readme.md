@@ -50,10 +50,45 @@ Let's work with Example 1 above. In this problem, we are only given a list to wo
 * Index `2` - we are working with `[10, 9, 2]`. Still, `dp[2] = 1`, because neither of `10` or `9` is not smaller than `2`.
 * Index `3` - we are working with `[10, 9, 2, 5]`. Things finally get a bit interesting here. Since `2` is smaller than `5`, we now have a subsequence of `[2, 5]` that has a length of `2`, so `dp[3] = 2`.
 * Index `4` - we have `[10, 9, 2, 5, 3]`. Since `2` is smaller than `3`, `dp[4] = 2`.
-* Index '5' - we have `[10, 9, 2, 5, 3, 7]`. Since `2` is smaller than `7`, `dp[4] = 2`. `5` is smaller than `7`, so `dp[4] = 3`. Finally, `3` is also smaller than `7`, but note that `dp[4]` is not incremented to `4`. Why so? We know that all of `2`, `5`, and `3` can come right before `7`.
+* Index `5` - we have `[10, 9, 2, 5, 3, 7]`. Since `2` is smaller than `7`, `dp[4] = 2`. `5` is smaller than `7`, so `dp[4] = 3`. Finally, `3` is also smaller than `7`, but note that `dp[4]` is not incremented to `4`. Why so? We know that all of `2`, `5`, and `3` can come right before `7`.
     - If we want `2` to come right before `7`, we just need to get the LIS that ends with `2`, and add `7` to it. So the result is `dp[2] + 1 = 1 + 1 = 2`.
     - If we want `5` to come right before `7`, we just need to get the LIS that ends with `5`, and add `7` to it. So the result is `dp[3] + 1 = 2 + 1 = 3`.
     - If we want `3` to come right before `7`, we just need to get the LIS that ends with `3`, and add `7` to it. So the result is `dp[4] + 1 = 2 + 1 = 2`.
+* ...
+
+At this point it should already be clear what the pattern is:
+
+1. Iterate through the array at each index `i`;
+2. Iterate through all the numbers before `nums[i]` at index `j` such that `j < i`;
+3. For all `j`'s such that `j < i`, we already know the length of LIS that ends with `nums[j]` - that's `dp[j]`;
+4. For all `j`'s such that `nums[j] < nums[i]`, we can build a new increasing subsequence that ends with `nums[i]`, by adding it to the end of the LIS that ends with `nums[j]`;
+5. `dp[i]` - the length of the LIS that ends with `nums[i]` - would just be the largest of all such `dp[j] + 1`;
+6. The final answer is just the maximum of `dp[i]` among all `i`'s.
+
+Hope you are still with me. The logic above may seem complicated, but the implementation should be very straightforward.
+
+### Solution
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        
+        dp = [1] * len(nums)
+        maxLength = 1
+        
+        # Base case when the length of the given array is 1, just return 1
+        if len(nums) == 1:
+            return maxLength
+        
+        # Iterations
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], 1 + dp[j])
+            maxLength = max(maxLength, dp[i])
+            
+        return maxLength
+```
 
 ## Example - 1143. Longest Common Subsequence
 
