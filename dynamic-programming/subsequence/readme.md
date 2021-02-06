@@ -41,6 +41,20 @@ Output: 1
 * `1 <= nums.length <= 2500`
 * `-104 <= nums[i] <= 104`
 
+### Intuition
+
+Let's work with Example 1 above. In this problem, we are only given a list to work with, and that makes things simple - the subproblem must be to solve the same problem for a smaller subarray. So for the memoization container `dp`, we will define it so that `dp[i]` stores the length of the longest increasing subsequence (LIS) for the substring that ends at index `i`.
+
+* Index `0` - we are only working with `[10]`, so the LIS must be itself. So `dp[0] = 1`. This is also a base case for us - if the list is of length 1, then the final answer should just be `1`.
+* Index `1` - we are working with `[10, 9]`. The LIS ends with number `9` would just be `[9]`. How do we know? Well duh, because number `10` is not smaller than number `9`. So `dp[1] = 1`.
+* Index `2` - we are working with `[10, 9, 2]`. Still, `dp[2] = 1`, because neither of `10` or `9` is not smaller than `2`.
+* Index `3` - we are working with `[10, 9, 2, 5]`. Things finally get a bit interesting here. Since `2` is smaller than `5`, we now have a subsequence of `[2, 5]` that has a length of `2`, so `dp[3] = 2`.
+* Index `4` - we have `[10, 9, 2, 5, 3]`. Since `2` is smaller than `3`, `dp[4] = 2`.
+* Index '5' - we have `[10, 9, 2, 5, 3, 7]`. Since `2` is smaller than `7`, `dp[4] = 2`. `5` is smaller than `7`, so `dp[4] = 3`. Finally, `3` is also smaller than `7`, but note that `dp[4]` is not incremented to `4`. Why so? We know that all of `2`, `5`, and `3` can come right before `7`.
+    - If we want `2` to come right before `7`, we just need to get the LIS that ends with `2`, and add `7` to it. So the result is `dp[2] + 1 = 1 + 1 = 2`.
+    - If we want `5` to come right before `7`, we just need to get the LIS that ends with `5`, and add `7` to it. So the result is `dp[3] + 1 = 2 + 1 = 3`.
+    - If we want `3` to come right before `7`, we just need to get the LIS that ends with `3`, and add `7` to it. So the result is `dp[4] + 1 = 2 + 1 = 2`.
+
 ## Example - 1143. Longest Common Subsequence
 
 ### Problem Description
