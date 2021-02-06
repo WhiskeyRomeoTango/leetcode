@@ -1,6 +1,45 @@
 # Subsequence
 
-**Subsequence** problems can usually be solved efficiently by DP. When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically a contiguous cut of the parent. Also, the word sequence suggests that there is a specific order that we would need to retain from the parent array structure. Lastly, these problems typically ask us to find the subsequence with maximum length. If the goal is to find all subsequences that follow a particular rule, then backtracking is probably more suited. (Maybe ???) 
+**Subsequence** problems can usually be solved efficiently by DP. On LeetCode, these problems usually have "subsequence" written in the title of the problem. However, we don't really have a problem title in interviews. How do we identify such questions?
+
+When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically contiguous cuts of the parents. If we are dealing strictly with contiguous subarray or substring, then two-pointer is probably a better approach. (Maybe ???)
+
+Also, the word **sequence** suggests that there is a specific order that we would need to retain from the parent structure. If the order is not relevant and we are only looking for combinations, then backtracking might be the way to go.
+
+## Example - 300. Longest Increasing Subsequence
+
+### Problem Description
+
+Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
+
+A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
+
+**Example 1**:
+
+```
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+```
+
+**Example 2**:
+
+```
+Input: nums = [0,1,0,3,2,3]
+Output: 4
+```
+
+**Example 3**:
+
+```
+Input: nums = [7,7,7,7,7,7,7]
+Output: 1
+```
+
+**Constraints**:
+
+* `1 <= nums.length <= 2500`
+* `-104 <= nums[i] <= 104`
 
 ## Example - 1143. Longest Common Subsequence
 
@@ -44,7 +83,7 @@ Explanation: There is no such common subsequence, so the result is 0.
 
 ### Intuition
 
-I am going to make Example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all, and my longest common subsequence should remain `'ace'` and therefore the result should be 3.
+I am going to make Example 1 above slightly more complicated, to deal with some special cases. I am going to have `text1 = 'abcde'` and `text2 = 'acfea'`. Right off the bat you should see that it doesn't really change the result at all - my longest common subsequence should remain `'ace'` and therefore the result should be 3.
 
 There isn't any fancy abstract data structure here - you are just given 2 strings to work with. In this case the subproblem or optimal substructure should naturally just be working with subsets of these strings. The idea is that we want to iterate through the 2 strings, character by character, with pointers `i` for `text1` and `j` for `text2`. For each `i`, `j` pair, we will get the maximum longest common subsequence between `text1[:i+1]` and `text2[:j+1]`, i.e. substrings of `text1` and `text2` ending at `i`, `j` indices.
 
