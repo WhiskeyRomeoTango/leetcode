@@ -2,7 +2,7 @@
 
 **Subsequence** problems can usually be solved efficiently by DP. On LeetCode, these problems usually have "subsequence" written in the title of the problem. However, we don't really have a problem title in interviews. How do we identify such questions?
 
-When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically contiguous slices of the parents. If we are dealing strictly with contiguous slices, then two-pointer may be a better approach (just an idea - this is not absolute, we still need to evaluate case by case). 
+When it comes to LeetCode and interview questions, a **subsequence** generally doesn't have to be contiguous from the parent sequence - this is different from **subarray** or **substring**, which are typically contiguous slices of the parents. 
 
 Also, the word **sequence** suggests that there is a specific order that we would need to retain from the parent structure. If the order is not relevant and we are only looking for combinations, then backtracking might be the way to go.
 
