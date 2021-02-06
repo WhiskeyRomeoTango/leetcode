@@ -75,13 +75,13 @@ If we do it in a table, that's like this:
 There are still a few more numbers we haven't checked, but at this point it should already be clear what the pattern is:
 
 1. Iterate through the array at each index `i`;
-2. Iterate through all the numbers before `nums[i]` at index `j` such that `j < i`;
-3. For all `j`'s such that `j < i`, we already know the length of LIS that ends with `nums[j]` - that's `dp[j]`;
-4. For all `j`'s such that `nums[j] < nums[i]`, **we can build a new increasing subsequence that ends with `nums[i]`, by adding it to the end of the LIS that ends with `nums[j]`**;
+2. For each `i`, iterate through the array at each index `j` such that `j < i`;
+3. For each `j`, we already know the length of LIS that ends with `nums[j]` - that's `dp[j]`;
+4. If `nums[j] < nums[i]`, **we can build a new increasing subsequence that ends with `nums[i]`, by appending it to the LIS that ends with `nums[j]`**;
 5. `dp[i]` - the length of the LIS that ends with `nums[i]` - would just be the largest of all such `dp[j] + 1`;
-6. The final answer is just the maximum of `dp[i]` among all `i`'s.
+6. The final answer is just the maximum of items in `dp`.
 
-Hope you are still with me. The logic above may seem complicated, but the implementation should be very straightforward.
+Hope you are still with me. The logic above may seem complicated, but the implementation should be very simple and straightforward.
 
 ### Solution
 
