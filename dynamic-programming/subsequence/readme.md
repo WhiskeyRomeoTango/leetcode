@@ -50,7 +50,7 @@ Output: 1
 Let's work with Example 1 above. In this problem, again we are only given an array to work with, and that makes things simple - the subproblem must be to solve the same problem for a smaller subarray. So for the memoization container `dp`, we will define it so that `dp[i]` stores the length of the longest increasing subsequence (LIS) for the substring that ends at index `i`.
 
 * First of all, for any sequence, the minimum length of the LIS must be 1, because there exists at least a LIS with 1 number.
-* Index `0` - we are only working with `[10]`, so the LIS must be itself. Therefore, `dp[0] = 1`. This is also a base case for us - if the list is of length 1, then the final answer should just be `1`.
+* Index `0` - we are only working with `[10]`, so the LIS must be itself. Therefore, `dp[0] = 1`. 
 * Index `1` - we are working with `[10, 9]`. The LIS ends with number `9` would just be `[9]`, because number `10` is not smaller than number `9`. So `dp[1] = 1`.
 * Index `2` - we are working with `[10, 9, 2]`. Still, The LIS ends with number `2` would just be `[2]`, because neither `10` nor `9` is smaller than `2`. So `dp[2] = 1`.
 * Index `3` - we are working with `[10, 9, 2, 5]`. Things finally get a bit interesting here. Since `2` is smaller than `5`, we now have a subsequence of `[2, 5]` that's constructed by adding `5` to the end of the LIS that ends with `2`. So `dp[3] = 2`.
@@ -77,7 +77,7 @@ There are still a few more numbers we haven't checked, but at this point it shou
 1. Iterate through the array at each index `i`;
 2. Iterate through all the numbers before `nums[i]` at index `j` such that `j < i`;
 3. For all `j`'s such that `j < i`, we already know the length of LIS that ends with `nums[j]` - that's `dp[j]`;
-4. For all `j`'s such that `nums[j] < nums[i]`, we can build a new increasing subsequence that ends with `nums[i]`, by adding it to the end of the LIS that ends with `nums[j]`;
+4. For all `j`'s such that `nums[j] < nums[i]`, **we can build a new increasing subsequence that ends with `nums[i]`, by adding it to the end of the LIS that ends with `nums[j]`**;
 5. `dp[i]` - the length of the LIS that ends with `nums[i]` - would just be the largest of all such `dp[j] + 1`;
 6. The final answer is just the maximum of `dp[i]` among all `i`'s.
 
